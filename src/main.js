@@ -3,8 +3,10 @@ import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 import App from './App.vue'
 import './assets/styles.css'
+import router from './views/router/index.js'
 
 const app = createApp(App)
+app.use(router)
 app.use(Toast, {
   position: 'top-center',
   timeout: 4000,
