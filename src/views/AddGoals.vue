@@ -14,11 +14,13 @@
 import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import  InputText  from 'primevue/inputtext'
+import { useRouter } from 'vue-router'
 
 const toast = useToast()
 const text = ref('')
 const goals = ref([])
 const emit = defineEmits(['addGoal'])
+const router = useRouter()
 
   onMounted(() => {
     const storedGoals = JSON.parse(localStorage.getItem('goals'))
@@ -62,6 +64,9 @@ const handleSubmittedGoal = (goalData) => {
     position: 'top-center',
     timeout: 2000
   })
+
+  router.push('/goal-keeper')
+
 }
 
 const addGoalsToLocalStorage = () => {

@@ -59,7 +59,7 @@
       <Column >
           <template #body="slotProps">
               <span v-tooltip.top="'toggle status'">
-                <InputSwitch  v-model="slotProps.data.completed"  @click="toggleStatusSwitch(slotProps.data)" /> 
+                <InputSwitch  v-model="slotProps.data.completed" v-tooltip.top="'toggle status'" @click="toggleStatusSwitch(slotProps.data)" /> 
               </span>       
           </template>
       </Column>

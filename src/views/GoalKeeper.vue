@@ -4,7 +4,7 @@
     <template  #header>
         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
             <span class="text-xl text-900 font-bold"><h2>Current Goals</h2></span>
-            <Button  value="Notes" rounded raised ><i class="pi pi-clipboard"></i><span>Notes</span></Button>
+                        <router-link to="/add-goals"><Button  value="Add Goals" rounded raised ><i class="pi pi-plus"></i><span>Set New Goal</span></Button></router-link>
         </div>
     </template>
 
@@ -32,6 +32,17 @@
          </template>
     </Column>
 
+      <Column field="day" header="Notes">
+          <template #body="slotProps">
+              <span v-tooltip.top="'add note'"  >
+               <i class="pi pi-plus" :class="{ completed: slotProps.data.completed}" style="color: var(--button-color-text)" @click="addNote(slotProps.data.id)"></i> 
+              </span>
+              <span v-tooltip.top="'view note'" >
+                <i class="pi pi-eye" :class="{ completed: slotProps.data.completed}" style="color: var(--button-color-text)" @click="viewNote(slotProps.data.id)"></i>
+              </span>
+          </template>
+      </Column>
+
     <Column field="completed" header="Status" >
         <template #body="slotProps">
            <span :class="{ completed: slotProps.data.completed}">
@@ -42,7 +53,7 @@
    
    <Column >
         <template #body="slotProps">
-            <InputSwitch  v-model="slotProps.data.completed" @click="toggleStatusSwitch(slotProps.data)" />        
+            <InputSwitch  v-model="slotProps.data.completed" v-tooltip.top="'toggle status'" @click="toggleStatusSwitch(slotProps.data)" />        
          </template>
     </Column>
  
@@ -71,6 +82,18 @@ onMounted(() => {
   }
   console.log(goals.value)
 })
+
+const addNote = (id) => {
+  const item = goals.value.find(item => item.id === id);
+  console.log(item)
+  item.notes = prompt('Enter your notes here', item.notes);
+  updateLocalStorage();
+}
+// TODO: CHANGE THIS TO A MODAL
+const viewNote = (id) => {
+  const item = goals.value.find(item => item.id === id);
+  alert(item.notes);
+}
 
 const getStatusText = (status) => {
     console.log(status)
