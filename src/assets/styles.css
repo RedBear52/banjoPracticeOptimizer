@@ -51,8 +51,8 @@ body {
 }
 
 .nav-container {
-  border: solid 1px var(--border-color);
-  border-radius: 8px;
+  /* border: solid 1px var(--border-color); */
+  /* border-radius: 8px; */
 }
 
 ul.nav {

@@ -3,7 +3,8 @@
       <template  #header>
           <div class="flex flex-wrap align-items-center justify-content-between gap-2">
               <span class="text-xl text-900 font-bold"><h2>Practice Regimen</h2></span>
-            
+                        <router-link to="/add-practice-item"><Button  value="Notes" rounded raised ><i class="pi pi-plus"></i><span>Add Practice Item</span></Button></router-link>
+
       <TabMenu :model="tabItems">
         
       </TabMenu>
@@ -62,7 +63,7 @@
               </span>       
           </template>
       </Column>
-      <template #footer> total practice time is: {{totalMinutes(practiceRegimen)}} </template>
+      <template #footer> total practice time is: {{totalMinutes(filteredRegimen)}} </template>
   </DataTable>
 </template>
 
@@ -201,6 +202,7 @@ const updateLocalStorage = () => {
 
 const deletePracticeItem = (id) => {
   practiceRegimen.value = practiceRegimen.value.filter((practiceItems) => practiceItems.id !== id)
+  filteredRegimen.value = filteredRegimen.value.filter((practiceItems) => practiceItems.id !== id)
   deletePracticeItemFromLocalStorage(id)
 }
 

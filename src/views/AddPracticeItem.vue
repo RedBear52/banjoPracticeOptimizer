@@ -21,10 +21,12 @@
 
 <script setup>
 import { ref, onMounted} from 'vue'
+import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
 
+const router = useRouter()
 const toast = useToast()
 const text = ref([])
 const selectedDay = ref()
@@ -91,6 +93,8 @@ const handleSubmittedPracticeItem = (practiceItemData) => {
     position: 'top-center',
     timeout: 2000
   })
+
+  router.push('/experimental-practice-regimen')
 }
 
 const addPracticeItemToLocalStorage = () => {
