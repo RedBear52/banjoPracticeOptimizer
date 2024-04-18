@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+@import 'primevue/resources/themes/aura-light-noir/theme.css';
+@import 'primeicons/primeicons.css';
 
 :root {
   /* color pallette */
@@ -16,11 +18,13 @@
   --wheat: hsla(37, 63%, 79%, 1);
 
   --border-color: hsla(23, 5%, 47%, 1);
+  --strikethrough-color: hsla(23, 5%, 47%, 0.5);
   --button-color-border: hsla(30, 66%, 55%, 1);
   --button-color-text: hsla(30, 66%, 55%, 1);
   --button-color-background: hsla(38, 16%, 86%, 1);
   --color: black;
   --link-color: hsla(30, 66%, 55%, 1);
+  --tab-color-background-active: hwb(57 51% 7% / 0.9);
 }
 
 * {
@@ -45,7 +49,6 @@ body {
   color: var(--color);
   font-family: 'Lato', sans-serif;
 }
-
 
 .nav-container {
   border: solid 1px var(--border-color);
@@ -113,6 +116,14 @@ li {
   color: var(--color-text);
 }
 
+#text {
+  width: 65%;
+}
+
+#number {
+  width: 10%;
+}
+
 span {
   color: var(--color);
   padding-left: 0.5rem;
@@ -153,7 +164,6 @@ button:hover {
   color: var(--white);
 }
 
-
 textarea {
   background-color: var(--background-color);
   border: 1px solid var(--border-color);
@@ -189,4 +199,17 @@ input:focus, textarea:focus {
   background-color: var(--container-background-color);
   border: 1px solid var(--button-color-border);
   color: var(--color);
+}
+
+/* .dialog {
+  background-color: var(--primary-color);
+  border: 1px solid var(--button-color-border);
+  width: 50vw;
+  padding: 2rem;
+} */
+
+
+.modal-text {
+  color: var(--color-primary-text);
+
 }

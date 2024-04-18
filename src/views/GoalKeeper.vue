@@ -1,34 +1,68 @@
 <template>
-  <div class="component-container">
-    <h2>Goal Keeper</h2>
-    <ul class="goal-list" id="goal-list">
-      <h3>Current Goals</h3>
-     <li v-for="goal in goals" :key="goal.id">
-  <span v-if="editingGoal && editingGoal.id === goal.id">
-    <textarea type="text" v-model="editingGoal.declaration" @blur="updateGoal" />
-    <button @click="editingGoal = null">Cancel</button>
-    <button @click="updateGoal">Save</button>
-  </span>
-  <span v-else>
-    {{ goal.declaration }}
-    <button class="edit-btn" @click="editGoal(goal.id)">Edit Goal</button>
-    <button class="delete-btn" @click="deleteGoal(goal.id)">Delete Goal</button>
-  </span>
-</li>
-    </ul>
-  </div>
+   
+   <DataTable :value="goals" tableStyle="min-width: 50rem">
+    <template  #header>
+        <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+            <span class="text-xl text-900 font-bold"><h2>Current Goals</h2></span>
+            <Button  value="Notes" rounded raised ><i class="pi pi-clipboard"></i><span>Notes</span></Button>
+        </div>
+    </template>
+
+    <Column field="goal" header="Goal" > 
+        <template #body="slotProps">
+        <span v-if="editingGoal && editingGoal.id === slotProps.data.id" >
+  <InputText type="text" id="text" v-model="editingGoal.declaration"  />
+  <span v-tooltip.top="'cancel changes'" @click.stop="editingGoal = null" class="pi pi-times"></span>
+  <span v-tooltip.top="'save changes'" @click="updateGoal" class="pi pi-save"></span>
+</span>
+            <span v-else :class="{ completed: slotProps.data.completed}" >
+                {{slotProps.data.declaration}}
+        </span>
+        </template>
+    </Column>
+
+    <Column field="edit" header="Edit Goal">
+         <template #body="slotProps">
+            <Button :disabled="slotProps.data.completed" class="edit-btn" @click="editGoal(slotProps.data.id)" label="Edit"  icon="pi pi-pencil" rounded raised ></Button>
+         </template>
+    </Column>
+    <Column field="delete" header="Delete Goal">
+        <template #body="slotProps">
+            <Button :disabled="slotProps.data.completed" class="delete-btn" @click="deleteGoal(slotProps.data.id)" label="Delete" icon="pi pi-trash" rounded raised ></Button>
+         </template>
+    </Column>
+
+    <Column field="completed" header="Status" >
+        <template #body="slotProps">
+           <span :class="{ completed: slotProps.data.completed}">
+            {{ getStatusText(slotProps.data.completed) }}
+           </span>
+        </template>
+    </Column>
+   
+   <Column >
+        <template #body="slotProps">
+            <InputSwitch  v-model="slotProps.data.completed" @click="toggleStatusSwitch(slotProps.data)" />        
+         </template>
+    </Column>
+ 
+</DataTable>
 </template>
 
-<script setup>
-import { defineProps } from 'vue'
-import { ref, onMounted } from 'vue'
-import { useToast } from 'vue-toastification'
-import 'vue-toastification/dist/index.css'
 
-const toast = useToast()
+<script setup>
+import { ref, onMounted } from 'vue'
+import InputText from 'primevue/inputtext';
+import InputSwitch from 'primevue/inputswitch';
+import Button from 'primevue/button';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import 'primeicons/primeicons.css'
+
 const goals = ref([])
 const editingGoal = ref(null)
-const text = ref('')
+const goal = ref('')
+
 
 onMounted(() => {
   const storedGoals = JSON.parse(localStorage.getItem('goals'))
@@ -38,16 +72,30 @@ onMounted(() => {
   console.log(goals.value)
 })
 
+const getStatusText = (status) => {
+    console.log(status)
+  return status ? 'Completed' : 'Not Completed';
+}
+
+const toggleStatusSwitch = (status) => {
+    console.log(status);
+    status.completed = !status.completed;
+    updateLocalStorage();
+}
+
+const updateLocalStorage = () => {
+    localStorage.setItem('practiceItems', JSON.stringify(goals.value));
+}
+
 const deleteGoal = (id) => {
   goals.value = goals.value.filter((goal) => goal.id !== id)
   deleteGoalFromLocalStorage(id)
-  toast.success('Goal deleted successfully')
 }
 
 const editGoal = (id) => {
   const goalToEdit = goals.value.find(goal => goal.id === id)
+  console.log(id)
   if (goalToEdit) {
-    // Set the goal to be edited
     editingGoal.value = {...goalToEdit}
   }
 }
@@ -55,13 +103,11 @@ const editGoal = (id) => {
 const updateGoal = () => {
   const goalIndex = goals.value.findIndex(goal => goal.id === editingGoal.value.id)
   if (goalIndex !== -1) {
-    goals.value[goalIndex] = editingGoal.value
+    goals.value[goalIndex] = { ...editingGoal.value }
     addGoalsToLocalStorage()
-    toast.success('Goal updated successfully')
   }
   editingGoal.value = null
 }
-
 const addGoalsToLocalStorage = () => {
   localStorage.setItem('goals', JSON.stringify(goals.value))
 }
@@ -70,5 +116,29 @@ const deleteGoalFromLocalStorage = (id) => {
   localStorage.setItem('goals', JSON.stringify(goals.value))
 }
 </script>
+
+<style scoped>
+.delete-btn {
+    background-color: var(--white);
+}
+
+.delete-btn:hover {
+    background-color: var(--red-500);
+    color: var(--white);
+}
+
+.delete-btn:disabled, .edit-btn:disabled {
+    background-color: var(--gray-300);
+    color: var(--gray-500);
+    border: none;
+}
+
+.completed {
+  color: var(--strikethrough-color);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+</style>
+
 
 

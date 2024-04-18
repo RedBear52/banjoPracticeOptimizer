@@ -3,8 +3,7 @@
     <h2>Set New Goal</h2>
     <form id="form" @submit.prevent="onSubmit">
       <div class="form-control">
-        <label for="goal"></label>
-        <textarea type="text" id="text" v-model="text" placeholder="Enter a new goal" />
+        <InputText type="text" id="text" v-model="text" placeholder="Enter a new goal" />
       </div>
       <button type="submit">Add Goal</button>
     </form>
@@ -14,6 +13,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
+import  InputText  from 'primevue/inputtext'
 
 const toast = useToast()
 const text = ref('')

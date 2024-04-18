@@ -2,11 +2,12 @@ import {createRouter, createWebHistory} from "vue-router";
 import HomeView from "../../views/HomeView.vue";
 import AddGoals from "../../views/AddGoals.vue";
 import AddPracticeItem from "../../views/AddPracticeItem.vue";
-import GoalKeeper from "../../views/GoalKeeper.vue";
+import GoalKeeper from "../GoalKeeper.vue";
 import Header from "../../views/Header.vue";
 import NavBar from "../../views/NavBar.vue";
 import PracticeNotes from "../../views/PracticeNotes.vue";
 import PracticeRegimen from "../../views/PracticeRegimen.vue";
+import ExperimentalPracticeRegimen from "../../views/ExperimentalPracticeRegimen.vue";
 
 
 const router = createRouter({
@@ -48,9 +49,19 @@ const router = createRouter({
             component: PracticeNotes
         },
         {
+            path: "/goal-keeper",
+            name: "GoalKeeper",
+            component: GoalKeeper
+        },
+        {
             path: "/practice-regimen",
             name: "PracticeRegimen",
             component: PracticeRegimen
+        },
+        {
+            path: "/experimental-practice-regimen",
+            name: "ExperimentalPracticeRegimen",
+            component: ExperimentalPracticeRegimen
         }
     ]
 });
