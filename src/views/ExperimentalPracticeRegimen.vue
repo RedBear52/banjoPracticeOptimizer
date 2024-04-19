@@ -23,7 +23,10 @@
       </Column>
       <Column field="minutes" header="Focus Time" >
           <template #body="slotProps">
-          <span :class="{ completed: slotProps.data.completed}">
+            <span class="minutes-edit-span" v-if="editingItem && editingItem.id === slotProps.data.id">
+              <InputNumber class="minutes-edit-field" type="number" id="number" v-model="tempItem.minutes" />
+            </span>
+          <span v-else :class="{ completed: slotProps.data.completed}">
               {{ slotProps.data.minutes }} minutes
           </span>
           </template>
@@ -73,6 +76,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
 import InputSwitch from 'primevue/inputswitch';
 import TabMenu from 'primevue/tabmenu';
 import 'primeicons/primeicons.css'
@@ -277,4 +281,13 @@ h2 {
   background-color: red;
   color: red;
 }
+
+/* .minutes-edit-field {
+  width: 200px;
+  background-color: red;
+} */
+
+/* .minutes-edit-field {
+  background-color: red;
+} */
 </style>
