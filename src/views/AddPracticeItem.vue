@@ -1,5 +1,6 @@
 <template>
-  <div class="component-container">
+  <div class="add-goal-container">
+    <div class="component-container">
     <h2>Add Practice Item</h2>
     <form @submit.prevent="onSubmit">
       <div class="form-control">
@@ -16,6 +17,7 @@
       </div>
       <button type="submit">Add Practice Item</button>
     </form>
+  </div>
   </div>
 </template>
 
@@ -101,3 +103,30 @@ const addPracticeItemToLocalStorage = () => {
   localStorage.setItem('practiceItems', JSON.stringify(practiceItems.value))
 }
 </script>
+
+<style scoped>
+.add-goal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  width: 100vw;
+}
+
+.component-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  border-radius: 8px;
+  border: 1px solid hsl(0, 0%, 50%, 0.3);
+  box-shadow: 4px 4px 10px hsl(0, 0%, 50%, 0.3);
+}
+
+.component-container h2 {
+  align-self: flex-start;
+
+}
+</style>

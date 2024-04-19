@@ -1,6 +1,6 @@
 <template>
-      <DataTable  :value="filteredRegimen" tableStyle="min-width: 50rem">
-      <template  #header>
+      <div class="data-table-container">
+        <DataTable  :value="filteredRegimen" tableStyle="min-width: 50rem" class="data-table" >      <template  #header>
           <div class="flex flex-wrap align-items-center justify-content-between gap-2">
               <span class="text-xl text-900 font-bold"><h2>Practice Regimen</h2></span>
                         <router-link to="/add-practice-item"><Button  value="Notes" rounded raised ><i class="pi pi-plus"></i><span>Add Practice Item</span></Button></router-link>
@@ -65,6 +65,7 @@
       </Column>
       <template #footer> total practice time is: {{totalMinutes(filteredRegimen)}} </template>
   </DataTable>
+      </div>
 </template>
 
 <script setup>
@@ -214,13 +215,35 @@ const deletePracticeItemFromLocalStorage = (id) => {
 </script>
 
 <style scoped>
-/* :deep(li.p-highlight a span)  {
-  color: var(--button-color-text);
-} */
+
+.data-table-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.data-table {
+    width: 80%;
+}
+
+button {
+  margin-bottom: 1.75rem;
+  margin-top: 0.75rem;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
 
 :deep(li.p-highlight a )  {
   background-color: rgba(223, 195,	140, 1);
-  /* background-color: var(--tab-color-background-active); */
+  color: var(--button-color-text);
+}
+
+:deep(li.p-highlight a span)  {
+  color: var(--button-color-tab-text);
 }
 
 .delete-btn {

@@ -1,6 +1,7 @@
 <template>
    
-   <DataTable :value="goals" tableStyle="min-width: 50rem">
+  <div class="data-table-container">
+     <DataTable :value="goals" tableStyle="min-width: 50rem" class="data-table">
     <template  #header>
         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
             <span class="text-xl text-900 font-bold"><h2>Current Goals</h2></span>
@@ -58,6 +59,7 @@
     </Column>
  
 </DataTable>
+  </div>
 </template>
 
 
@@ -160,6 +162,26 @@ const deleteGoalFromLocalStorage = (id) => {
   color: var(--strikethrough-color);
   text-decoration: line-through;
   cursor: not-allowed;
+}
+
+ i.completed {
+  filter: grayscale(100%);
+  cursor: not-allowed;
+} 
+
+.data-table-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.data-table {
+    width: 80%;
+}
+h2 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
 }
 </style>
 

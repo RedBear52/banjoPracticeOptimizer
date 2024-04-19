@@ -18,9 +18,11 @@
   --wheat: hsla(37, 63%, 79%, 1);
 
   --border-color: hsla(23, 5%, 47%, 1);
+  --border-color-faded: hsla(23, 5%, 47%, 0.5);
   --strikethrough-color: hsla(23, 5%, 47%, 0.5);
   --button-color-border: hsla(30, 66%, 55%, 1);
   --button-color-text: hsla(30, 66%, 55%, 1);
+  --button-color-tab-text: hsl(0, 2%, 31%);
   --button-color-background: hsla(38, 16%, 86%, 1);
   --color: black;
   --link-color: hsla(30, 66%, 55%, 1);
@@ -44,15 +46,18 @@
 html,
 body {
   display: flex;
-
   background-color: var(--background-color);
   color: var(--color);
   font-family: 'Lato', sans-serif;
 }
 
-.nav-container {
-  /* border: solid 1px var(--border-color); */
-  /* border-radius: 8px; */
+.header-conainer  {
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  align-items: center;
+  background-color: red;
+  color: var(--color);
 }
 
 ul.nav {
