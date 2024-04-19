@@ -1,12 +1,11 @@
 <template>
       <div class="data-table-container">
         <DataTable  :value="filteredRegimen" tableStyle="min-width: 50rem" class="data-table" >      <template  #header>
-          <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+          <div class="margin-mitigate flex flex-wrap align-items-center justify-content-between gap-2">
               <span class="text-xl text-900 font-bold"><h2>Practice Regimen</h2></span>
                         <router-link to="/add-practice-item"><Button  value="Notes" rounded raised ><i class="pi pi-plus"></i><span>Add Practice Item</span></Button></router-link>
 
       <TabMenu :model="tabItems">
-        
       </TabMenu>
           </div>
       </template>
@@ -76,8 +75,6 @@ import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import InputSwitch from 'primevue/inputswitch';
 import TabMenu from 'primevue/tabmenu';
-
-
 import 'primeicons/primeicons.css'
 
 const id = ref(0);
@@ -153,8 +150,6 @@ onMounted(() => {
     practiceRegimen.value = storedPracticeItems
     filteredRegimen.value = storedPracticeItems.filter((item) => item.day === 'Monday'); // Filter for Monday items
   }
-  console.log(practiceRegimen.value)
-  console.log(filteredRegimen.value)
 })
 
 const getStatusText = (status) => {
@@ -192,13 +187,13 @@ const updatePracticeItem = () => {
   editingItem.value = null;
 }
 
-
 const totalMinutes = (practiceRegimen) => {
     return practiceRegimen.reduce((acc, item) => acc + Number(item.minutes), 0);
 }
 
 const updateLocalStorage = () => {
     localStorage.setItem('practiceItems', JSON.stringify(practiceRegimen.value));
+    localStorage.setItem('filteredRegimen', JSON.stringify(filteredRegimen.value));
 }
 
 const deletePracticeItem = (id) => {
@@ -215,24 +210,30 @@ const deletePracticeItemFromLocalStorage = (id) => {
 </script>
 
 <style scoped>
-
 .data-table-container {
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 0;
 }
 
 .data-table {
     width: 80%;
 }
 
+.margin-mitigate {
+    margin: 0;
+
+}
+
 button {
   margin-bottom: 1.75rem;
-  margin-top: 0.75rem;
+  margin-top: 1.5rem;
 }
 
 h2 {
+  margin-top: 0;
   margin-bottom: 0.5rem;
   font-size: 2rem;
 }
@@ -276,6 +277,4 @@ h2 {
   background-color: red;
   color: red;
 }
-
-
 </style>

@@ -18,7 +18,7 @@
   --wheat: hsla(37, 63%, 79%, 1);
 
   --border-color: hsla(23, 5%, 47%, 1);
-  --border-color-faded: hsla(23, 5%, 47%, 0.5);
+  --border-color-faded: hsla(0, 0%, 75%, 0.5);
   --strikethrough-color: hsla(23, 5%, 47%, 0.5);
   --button-color-border: hsla(30, 66%, 55%, 1);
   --button-color-text: hsla(30, 66%, 55%, 1);

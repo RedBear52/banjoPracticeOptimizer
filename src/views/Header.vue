@@ -46,6 +46,7 @@ const toggle = (event) => {
   align-items: center;
   background-color: var(--color-primary);
   color: var(--color);
+  margin-bottom: 0;
 }
 
 img {

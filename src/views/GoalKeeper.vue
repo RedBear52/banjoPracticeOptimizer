@@ -109,7 +109,7 @@ const toggleStatusSwitch = (status) => {
 }
 
 const updateLocalStorage = () => {
-    localStorage.setItem('practiceItems', JSON.stringify(goals.value));
+    localStorage.setItem('goals', JSON.stringify(goals.value));
 }
 
 const deleteGoal = (id) => {
