@@ -2,6 +2,7 @@
  <div class="header-container">
    <div >
     <img src="../assets/images/pbbLogo.jpg" alt="" />
+    <h1 class="warning">Firebase Version!!!</h1>
   </div>
     <div class="card flex justify-content-center hamburger-container" >
         <Button class="hamburger" type="button" icon="pi pi-bars" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
@@ -82,5 +83,12 @@ img {
 button.p-button:hover {
   background-color: initial !important;
   color: initial !important;
+}
+
+.warning {
+  color: red;
+  font-size: 1.5rem;
+  margin-left: 1rem;
+  background-color: pink;
 }
 </style>

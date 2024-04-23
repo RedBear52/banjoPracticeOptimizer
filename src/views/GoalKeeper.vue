@@ -1,27 +1,25 @@
 <template>
-   
   <div class="data-table-container">
      <DataTable :value="goals" tableStyle="min-width: 50rem" class="data-table">
-    <template  #header>
+      <template  #header>
         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
             <span class="text-xl text-900 font-bold"><h2>Current Goals</h2></span>
-                        <router-link to="/add-goals"><Button  value="Add Goals" rounded raised ><i class="pi pi-plus"></i><span>Set New Goal</span></Button></router-link>
+            <router-link to="/add-goals"><Button  value="Add Goals" rounded raised ><i class="pi pi-plus"></i><span>Set New Goal</span></Button></router-link>
         </div>
-    </template>
+      </template>
 
     <Column field="goal" header="Goal" > 
         <template #body="slotProps">
         <span v-if="editingGoal && editingGoal.id === slotProps.data.id" >
-  <InputText type="text" id="text" v-model="editingGoal.declaration"  />
-  <span v-tooltip.top="'cancel changes'" @click.stop="editingGoal = null" class="pi pi-times"></span>
-  <span v-tooltip.top="'save changes'" @click="updateGoal" class="pi pi-save"></span>
-</span>
-            <span v-else :class="{ completed: slotProps.data.completed}" >
-                {{slotProps.data.declaration}}
+      <InputText type="text" id="text" v-model="editingGoal.declaration"  />
+        <span v-tooltip.top="'cancel changes'" @click.stop="editingGoal = null" class="pi pi-times"></span>
+        <span v-tooltip.top="'save changes'" @click="updateGoal" class="pi pi-save"></span>
         </span>
-        </template>
+        <span v-else :class="{ completed: slotProps.data.completed}" >
+          {{slotProps.data.declaration}}
+        </span>
+    </template>
     </Column>
-
     <Column field="edit" header="Edit Goal">
          <template #body="slotProps">
             <Button :disabled="slotProps.data.completed" class="edit-btn" @click="editGoal(slotProps.data.id)" label="Edit"  icon="pi pi-pencil" rounded raised ></Button>
@@ -32,7 +30,6 @@
             <Button :disabled="slotProps.data.completed" class="delete-btn" @click="deleteGoal(slotProps.data.id)" label="Delete" icon="pi pi-trash" rounded raised ></Button>
          </template>
     </Column>
-
       <Column field="day" header="Notes">
           <template #body="slotProps">
               <span v-tooltip.top="'add note'"  >
@@ -43,7 +40,6 @@
               </span>
           </template>
       </Column>
-
     <Column field="completed" header="Status" >
         <template #body="slotProps">
            <span :class="{ completed: slotProps.data.completed}">
@@ -51,20 +47,20 @@
            </span>
         </template>
     </Column>
-   
    <Column >
         <template #body="slotProps">
             <InputSwitch  v-model="slotProps.data.completed" v-tooltip.top="'toggle status'" @click="toggleStatusSwitch(slotProps.data)" />        
          </template>
     </Column>
- 
-</DataTable>
+  </DataTable>
   </div>
 </template>
 
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore'
+import { db } from '../main'
 import InputText from 'primevue/inputtext';
 import InputSwitch from 'primevue/inputswitch';
 import Button from 'primevue/button';
@@ -77,24 +73,43 @@ const editingGoal = ref(null)
 const goal = ref('')
 
 
-onMounted(() => {
-  const storedGoals = JSON.parse(localStorage.getItem('goals'))
-  if (storedGoals) {
-    goals.value = storedGoals
+onMounted(async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'goals'));
+    goals.value = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    console.log(goals.value);
+  } catch (error) {
+    console.error('Error retrieving documents: ', error);
   }
-  console.log(goals.value)
 })
 
 const addNote = (id) => {
   const item = goals.value.find(item => item.id === id);
   console.log(item)
-  item.notes = prompt('Enter your notes here', item.notes);
-  updateLocalStorage();
+//  add note to goal object in firestore
+  const note = prompt('Add a note to this goal');
+  if (note) {
+    item.notes = note;
+   AddNotInFirestore(item);
+  }
 }
+
+const AddNotInFirestore = async (item) => {
+  try {
+    await updateDoc(doc(db, 'goals', item.id), {
+      notes: item.notes
+    });
+  } catch (error) {
+    console.error('Error updating document: ', error);
+  }
+}
+
+
 // TODO: CHANGE THIS TO A MODAL
 const viewNote = (id) => {
   const item = goals.value.find(item => item.id === id);
-  alert(item.notes);
+//  show note from firestore in primevue Dialog 
+  
 }
 
 const getStatusText = (status) => {
@@ -105,23 +120,31 @@ const getStatusText = (status) => {
 const toggleStatusSwitch = (status) => {
     console.log(status);
     status.completed = !status.completed;
-    updateLocalStorage();
+    updateFirestoreCompletedStatus(status);
 }
 
-const updateLocalStorage = () => {
-    localStorage.setItem('goals', JSON.stringify(goals.value));
+const updateFirestoreCompletedStatus = async (status) => {
+ try {
+    await updateDoc(doc(db, 'goals', status.id), {
+      // find firestore item by id and update the completed status
+      completed: status.completed
+    });
+  } catch (error) {
+    console.error('Error updating document: ', error);
+  }
 }
 
 const deleteGoal = (id) => {
   goals.value = goals.value.filter((goal) => goal.id !== id)
-  deleteGoalFromLocalStorage(id)
+  deleteGoalFromFirestore(id)
 }
 
 const editGoal = (id) => {
   const goalToEdit = goals.value.find(goal => goal.id === id)
   console.log(id)
   if (goalToEdit) {
-    editingGoal.value = {...goalToEdit}
+  //  edit in firestore 
+    editingGoal.value = { ...goalToEdit }
   }
 }
 
@@ -129,28 +152,37 @@ const updateGoal = () => {
   const goalIndex = goals.value.findIndex(goal => goal.id === editingGoal.value.id)
   if (goalIndex !== -1) {
     goals.value[goalIndex] = { ...editingGoal.value }
-    addGoalsToLocalStorage()
+    // update edited goal in firestore
+    updateGoalInFirestore(editingGoal.value)
   }
   editingGoal.value = null
 }
-const addGoalsToLocalStorage = () => {
-  localStorage.setItem('goals', JSON.stringify(goals.value))
+
+const updateGoalInFirestore = async (goal) => {
+  try {
+    await updateDoc(doc(db, 'goals', goal.id), {
+      declaration: goal.declaration
+    });
+  } catch (error) {
+    console.error('Error updating document: ', error);
+  }
 }
 
-const deleteGoalFromLocalStorage = (id) => {
-  localStorage.setItem('goals', JSON.stringify(goals.value))
+const deleteGoalFromFirestore = (id) => {
+  try {
+    deleteDoc(doc(db, 'goals', id));
+  } catch (error) {
+    console.error('Error deleting document: ', error);
+  }
 }
 </script>
 
 <style scoped>
-.delete-btn {
-    background-color: var(--white);
-}
 
 .delete-btn:hover {
     background-color: var(--red-500);
     color: var(--white);
-}
+} 
 
 .delete-btn:disabled, .edit-btn:disabled {
     background-color: var(--gray-300);

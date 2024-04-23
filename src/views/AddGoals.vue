@@ -8,8 +8,9 @@
       </div>
       <button type="submit">Add Goal</button>
     </form>
+    </div>
   </div>
-  </div>
+
 </template>
 
 <script setup>
@@ -17,63 +18,49 @@ import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import  InputText  from 'primevue/inputtext'
 import { useRouter } from 'vue-router'
+import { db } from '../main'
+import { collection, addDoc, doc } from 'firebase/firestore'
 
 const toast = useToast()
 const text = ref('')
 const goals = ref([])
-const emit = defineEmits(['addGoal'])
+// const emit = defineEmits(['addGoal'])
 const router = useRouter()
 
-  onMounted(() => {
-    const storedGoals = JSON.parse(localStorage.getItem('goals'))
-    if (storedGoals) {
-      goals.value = storedGoals
-    }
-    console.log(goals.value)
-  })
+  // onMounted(() => {
+  //   const storedGoals = JSON.parse(localStorage.getItem('goals'))
+  //   if (storedGoals) {
+  //     goals.value = storedGoals
+  //   }
+  //   console.log(goals.value)
+  // })
 
-const onSubmit = () => {
-  console.log(text.value)
+const onSubmit = async () => {
   if (!text.value) {
-    toast.error('Please enter a valid goal !')
-    return
-  }
+  toast.error('Please enter a valid goal !')
+  return
+    }
+    try {
+      const docRef = await addDoc(collection(db, 'goals'), {
+        declaration: text.value,
+        completed: false
+      });
+      console.log('Document written with ID: ', docRef.id);
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
+      console.log(text.value)
 
-  const goalData = {
-    declaration: text.value,
-    completed: false
-  }
-
-  handleSubmittedGoal(goalData)
-
-  console.log(goalData.declaration)
+      toast.success('Goal successfully added!', {
+        position: 'top-center',
+        timeout: 2000
+  })
   text.value = ''
-}
-
-const handleSubmittedGoal = (goalData) => {
-  console.log(goalData)
-  goals.value.push({
-    id: Math.random(),
-    declaration: goalData.declaration,
-    completed: goalData.completed
-  })
-
-   console.log(goals.value)
-
-  addGoalsToLocalStorage()
-
-  toast.success('Goal successfully added!', {
-    position: 'top-center',
-    timeout: 2000
-  })
 
   router.push('/goal-keeper')
-
 }
 
-const addGoalsToLocalStorage = () => {
-  localStorage.setItem('goals', JSON.stringify(goals.value))
-}
+
 </script>
 
 <style scoped>
