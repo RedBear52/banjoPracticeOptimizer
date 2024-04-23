@@ -72,6 +72,8 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
+import { collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore'
+import { db } from '../main'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import Button from 'primevue/button';
@@ -96,6 +98,7 @@ const tabItems = ([
   {
     label: 'Monday',
     command: () => {
+    filteredRegimen.value.filter((item) => item.day === 'Monday')
     const mondayRegimen = practiceRegimen.value.filter((item) => item.day === 'Monday')
     console.log(mondayRegimen)
     filteredRegimen.value = mondayRegimen
@@ -148,11 +151,19 @@ const tabItems = ([
   }
 ]);
 
-onMounted(() => {
-  const storedPracticeItems = JSON.parse(localStorage.getItem('practiceItems'))
-  if (storedPracticeItems) {
-    practiceRegimen.value = storedPracticeItems
-    filteredRegimen.value = storedPracticeItems.filter((item) => item.day === 'Monday'); // Filter for Monday items
+onMounted(async () => {
+   try {
+    const querySnapshot = await getDocs(collection(db, 'practiceRegimen'));
+    practiceRegimen.value = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }
+  ));
+    filteredRegimen.value.filter((item) => item.day === 'Monday')
+    const mondayRegimen = practiceRegimen.value.filter((item) => item.day === 'Monday')
+    console.log(mondayRegimen)
+    filteredRegimen.value = mondayRegimen
+
+    console.log(practiceRegimen.value);
+  } catch (error) {
+    console.error('Error retrieving documents: ', error);
   }
 })
 
@@ -164,16 +175,39 @@ const getStatusText = (status) => {
 const toggleStatusSwitch = (status) => {
     console.log(status);
     status.completed = !status.completed;
-    updateLocalStorage();
+  updateFirestoreCompletedStatus(status);
 }
+
+const updateFirestoreCompletedStatus = async (status) => {
+ try {
+    await updateDoc(doc(db, 'practiceRegimen', status.id), {
+      // find firestore item by id and update the completed status
+      completed: status.completed
+    });
+    console.log(status.id)
+  } catch (error) {
+    console.error('Error updating document: ', error);
+  }
+}
+
 // TODO:   CHANGE THIS TO A MODAL
 const addNote = (id) => {
   const item = practiceRegimen.value.find(item => item.id === id);
   console.log(item)
   item.notes = prompt('Enter your notes here', item.notes);
-  updateLocalStorage();
+   AddNoteInFirestore(item);
+  }
+// TODO:   CHANGE THIS TO A MODAL
+const AddNoteInFirestore = async (item) => {
+  try {
+    await updateDoc(doc(db, 'practiceRegimen', item.id), {
+      notes: item.notes
+    });
+  } catch (error) {
+    console.error('Error updating document: ', error);
+  }
 }
-// TODO: CHANGE THIS TO A MODAL
+
 const viewNote = (id) => {
   const item = practiceRegimen.value.find(item => item.id === id);
   alert(item.notes);
@@ -187,29 +221,38 @@ const editPracticeItem = (id) => {
 
 const updatePracticeItem = () => {
   Object.assign(editingItem.value, tempItem);
-  updateLocalStorage();
+  updatePracticeItemInFirebase();
   editingItem.value = null;
+}
+
+const updatePracticeItemInFirebase = () => {
+  //  update practice item's 'item' and/or 'minutes' in firestore
+  try {
+    updateDoc(doc(db, 'practiceRegimen', editingItem.value.id), {
+      practiceItem: editingItem.value.practiceItem,
+      minutes: editingItem.value.minutes
+    });
+  } catch (error) {
+    console.error('Error updating document: ', error);
+  }
 }
 
 const totalMinutes = (practiceRegimen) => {
     return practiceRegimen.reduce((acc, item) => acc + Number(item.minutes), 0);
 }
 
-const updateLocalStorage = () => {
-    localStorage.setItem('practiceItems', JSON.stringify(practiceRegimen.value));
-    localStorage.setItem('filteredRegimen', JSON.stringify(filteredRegimen.value));
-}
-
 const deletePracticeItem = (id) => {
   practiceRegimen.value = practiceRegimen.value.filter((practiceItems) => practiceItems.id !== id)
   filteredRegimen.value = filteredRegimen.value.filter((practiceItems) => practiceItems.id !== id)
-  deletePracticeItemFromLocalStorage(id)
+  deletePracticeItemFromFirebase(id)
 }
 
-const deletePracticeItemFromLocalStorage = (id) => {
-  const storedPracticeItems = JSON.parse(localStorage.getItem('practiceItems'))
-  const updatedPracticeItems = storedPracticeItems.filter((practiceItem) => practiceItem.id !== id)
-  localStorage.setItem('practiceItems', JSON.stringify(updatedPracticeItems))
+const deletePracticeItemFromFirebase = (id) => {
+  try {
+    deleteDoc(doc(db, 'practiceRegimen', id));
+  } catch (error) {
+    console.error('Error deleting document: ', error);
+  }
 }
 </script>
 

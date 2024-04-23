@@ -90,11 +90,11 @@ const addNote = (id) => {
   const note = prompt('Add a note to this goal');
   if (note) {
     item.notes = note;
-   AddNotInFirestore(item);
+   AddNoteInFirestore(item);
   }
 }
 
-const AddNotInFirestore = async (item) => {
+const AddNoteInFirestore = async (item) => {
   try {
     await updateDoc(doc(db, 'goals', item.id), {
       notes: item.notes
@@ -109,7 +109,7 @@ const AddNotInFirestore = async (item) => {
 const viewNote = (id) => {
   const item = goals.value.find(item => item.id === id);
 //  show note from firestore in primevue Dialog 
-  
+  alert(item.notes);
 }
 
 const getStatusText = (status) => {
