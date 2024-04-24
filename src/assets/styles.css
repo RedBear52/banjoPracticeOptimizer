@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 @import 'primevue/resources/themes/aura-light-noir/theme.css';
 @import 'primeicons/primeicons.css';
+@import 'fonts.css';
 
 :root {
   /* color pallette */
@@ -20,6 +21,7 @@
   --border-color: hsla(23, 5%, 47%, 1);
   --border-color-faded: hsla(0, 0%, 75%, 0.5);
   --strikethrough-color: hsla(23, 5%, 47%, 0.5);
+  --cheap-pine-color: rgb(85, 77, 72);
   --button-color-border: hsla(30, 66%, 55%, 1);
   --button-color-text: hsla(30, 66%, 55%, 1);
   --button-color-tab-text: hsl(0, 2%, 31%);
@@ -46,9 +48,11 @@
 html,
 body {
   display: flex;
-  background-color: var(--background-color);
+  background-color: rgb(252,254,255);
+  /* background-color: var(--background-color); */
   color: var(--color);
   font-family: 'Lato', sans-serif;
+  font-family: 'Cheapine-Sans', sans-serif;
 }
 
 .header-conainer  {
@@ -93,13 +97,20 @@ ul.nav {
 
 h1 {
   color: var(--color-text);
-  padding: 2rem;
- 
+  font-family: 'CheapPine-Sans', sans-serif;
+  color: var(--cheap-pine-color);
+  font-size: 2.5rem;
+  text-decoration: dotted underline;
+  text-decoration-color: var(--butterscotch);
 }
 
 h2 {
   color: var(--color-muted);
   font-size: x-large;
+  font-family: 'CheapPine-Sans', sans-serif;
+  color: var(--cheap-pine-color);
+  text-decoration: dotted underline;
+  text-decoration-color: var(--butterscotch);
 }
 
 h3 {

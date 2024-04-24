@@ -2,7 +2,6 @@
  <div class="header-container">
    <div >
     <img src="../assets/images/pbbLogo.jpg" alt="" />
-    <h1 class="warning">Firebase Version!!!</h1>
   </div>
     <div class="card flex justify-content-center hamburger-container" >
         <Button class="hamburger" type="button" icon="pi pi-bars" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
@@ -30,7 +29,7 @@ const items = ref([
         label: 'Practice Regimen',
         icon: 'pi pi-fw pi-receipt',
         command: () => { router.push('/experimental-practice-regimen') }
-    }
+    },
 ])
 
 const toggle = (event) => {
@@ -83,12 +82,5 @@ img {
 button.p-button:hover {
   background-color: initial !important;
   color: initial !important;
-}
-
-.warning {
-  color: red;
-  font-size: 1.5rem;
-  margin-left: 1rem;
-  background-color: pink;
 }
 </style>

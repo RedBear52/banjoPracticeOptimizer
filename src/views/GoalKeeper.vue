@@ -3,7 +3,7 @@
      <DataTable :value="goals" tableStyle="min-width: 50rem" class="data-table">
       <template  #header>
         <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-            <span class="text-xl text-900 font-bold"><h2>Current Goals</h2></span>
+            <span class="text-xl text-900 font-bold"><h1>Current Goals</h1></span>
             <router-link to="/add-goals"><Button  value="Add Goals" rounded raised ><i class="pi pi-plus"></i><span>Set New Goal</span></Button></router-link>
         </div>
       </template>
@@ -70,8 +70,6 @@ import 'primeicons/primeicons.css'
 
 const goals = ref([])
 const editingGoal = ref(null)
-const goal = ref('')
-
 
 onMounted(async () => {
   try {

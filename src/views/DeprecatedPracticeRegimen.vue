@@ -25,6 +25,7 @@
          </span>
         </template>
     </Column>
+    
     <Column field="edit" header="Edit Item">
          <template #body="slotProps">
             <Button  :disabled="slotProps.data.completed" class="edit-btn" @click="editPracticeItem(slotProps.data.id)" label="Edit"  icon="pi pi-pencil" rounded raised ></Button>

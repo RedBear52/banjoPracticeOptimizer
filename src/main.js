@@ -8,6 +8,7 @@ import PrimeVue  from 'primevue/config'
 import Tooltip from 'primevue/tooltip'
 import {initializeApp} from 'firebase/app'
 import { getFirestore} from 'firebase/firestore'
+import '../CheapPine-Sans.otf'
 
 const firebaseConfig = {
   apiKey: "AIzaSyBxWkqDfaBHYmBGnBGbwokDKhW6LBBWBxg",

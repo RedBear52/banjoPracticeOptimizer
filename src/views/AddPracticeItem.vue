@@ -22,7 +22,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted} from 'vue'
+import { ref} from 'vue'
+import { db } from '../main'
+import { collection, addDoc } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import InputText from 'primevue/inputtext';
@@ -44,64 +46,30 @@ const days = ref([
 const number = ref(0)
 const practiceItems = ref([])
 
-onMounted(() => {
-  const storedPracticeItems = JSON.parse(localStorage.getItem('practiceItems'))
-  if (storedPracticeItems) {
-    practiceItems.value = storedPracticeItems
-  }
-  console.log(practiceItems.value)
-})
-
-const onSubmit = () => {
-  console.log(text.value)
-  console.log(number.value)
-  console.log(selectedDay.value)
-  console.log(practiceItems.value)
+const onSubmit = async ()  => {
   if (!text.value || number.value <= 0 || !selectedDay.value) {
     toast.error('Please enter a valid practice item AND valid practice time value AND day of the week!')
     return
   }
-
-  const practiceItemData = {
-    day: selectedDay.value.name,
-    practiceItem: text.value,
-    minutes: number.value,
-    notes: '',
-    completed: false
+  try {
+    const docRef = await addDoc(collection(db, 'practiceRegimen'), {
+      day: selectedDay.value.name,
+      practiceItem: text.value,
+      minutes: number.value,
+      completed: false
+    });
+  } catch {
+    console.error('Error adding document: ', e);
   }
-
-  handleSubmittedPracticeItem(practiceItemData)
-
-  console.log(practiceItemData.practiceItem)
-  text.value = ''
-}
-
-const handleSubmittedPracticeItem = (practiceItemData) => {
-  console.log(practiceItemData)
-  practiceItems.value.push({
-    id: Math.random(),
-    day: practiceItemData.day,
-    practiceItem: practiceItemData.practiceItem,
-    minutes: practiceItemData.minutes,
-    notes: practiceItemData.notes,
-    completed: practiceItemData.completed
-  })
-
-  console.log(practiceItems.value)
-
-  addPracticeItemToLocalStorage()
-
-  toast.success('Practice item successfully added!', {
+   toast.success('Practice item successfully added!', {
     position: 'top-center',
     timeout: 2000
   })
+  text.value = ''
 
   router.push('/experimental-practice-regimen')
 }
 
-const addPracticeItemToLocalStorage = () => {
-  localStorage.setItem('practiceItems', JSON.stringify(practiceItems.value))
-}
 </script>
 
 <style scoped>

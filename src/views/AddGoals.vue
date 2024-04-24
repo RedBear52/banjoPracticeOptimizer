@@ -14,26 +14,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import  InputText  from 'primevue/inputtext'
 import { useRouter } from 'vue-router'
 import { db } from '../main'
-import { collection, addDoc, doc } from 'firebase/firestore'
+import { collection, addDoc } from 'firebase/firestore'
 
 const toast = useToast()
 const text = ref('')
-const goals = ref([])
-// const emit = defineEmits(['addGoal'])
 const router = useRouter()
-
-  // onMounted(() => {
-  //   const storedGoals = JSON.parse(localStorage.getItem('goals'))
-  //   if (storedGoals) {
-  //     goals.value = storedGoals
-  //   }
-  //   console.log(goals.value)
-  // })
 
 const onSubmit = async () => {
   if (!text.value) {
@@ -59,8 +49,6 @@ const onSubmit = async () => {
 
   router.push('/goal-keeper')
 }
-
-
 </script>
 
 <style scoped>

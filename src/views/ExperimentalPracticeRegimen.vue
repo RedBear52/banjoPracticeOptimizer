@@ -2,8 +2,8 @@
       <div class="data-table-container">
         <DataTable  :value="filteredRegimen" tableStyle="min-width: 50rem" class="data-table" >      <template  #header>
           <div class="margin-mitigate flex flex-wrap align-items-center justify-content-between gap-2">
-              <span class="text-xl text-900 font-bold"><h2>Practice Regimen</h2></span>
-                        <router-link to="/add-practice-item"><Button  value="Notes" rounded raised ><i class="pi pi-plus"></i><span>Add Practice Item</span></Button></router-link>
+              <span class="text-xl text-900 font-bold"><h1>Practice Regimen</h1></span>
+                        <router-link to="/add-practice-item"><Button  class="practice-btn" value="Notes" rounded raised ><i class="pi pi-plus"></i><span>Add Practice Item</span></Button></router-link>
 
       <TabMenu :model="tabItems">
       </TabMenu>
@@ -31,6 +31,13 @@
           </span>
           </template>
       </Column>
+      <Column field="timer" header="Timer" >
+        <template #body="slotProps">
+         <span @click="openPracticeTimer(slotProps.data.id)" :class="{ completed: slotProps.data.completed}">
+            <i class="pi pi-fw pi-clock"></i>
+         </span>
+        </template>
+    </Column>
       <Column field="edit" header="Edit Item">
           <template #body="slotProps">
               <Button  :disabled="slotProps.data.completed" class="edit-btn" @click="editPracticeItem(slotProps.data.id)" label="Edit"  icon="pi pi-pencil" rounded raised ></Button>
@@ -65,13 +72,14 @@
               </span>       
           </template>
       </Column>
-      <template #footer> total practice time is: {{totalMinutes(filteredRegimen)}} </template>
+      <template #footer> total practice time: {{totalMinutes(filteredRegimen)}} minutes </template>
   </DataTable>
       </div>
 </template>
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
+import { useRouter }from 'vue-router';
 import { collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore'
 import { db } from '../main'
 import DataTable from 'primevue/datatable';
@@ -93,6 +101,7 @@ const checked = ref(false);
 const editingItem = ref(null);
 const tempItem = reactive({ id: null, practiceItem: '' });
 const cancel = ref(false);
+const router = useRouter();
 
 const tabItems = ([
   {
@@ -208,6 +217,12 @@ const AddNoteInFirestore = async (item) => {
   }
 }
 
+const openPracticeTimer = (id) => {
+  const item = practiceRegimen.value.find(item => item.id === id);
+  console.log(item)
+  router.push({ name: 'PracticeTimer', params: { id: item.id, practiceItem: item.practiceItem, minutes: item.minutes, completed: item.completed } });
+}
+
 const viewNote = (id) => {
   const item = practiceRegimen.value.find(item => item.id === id);
   alert(item.notes);
@@ -279,10 +294,13 @@ button {
   margin-top: 1.5rem;
 }
 
-h2 {
+.practice-btn {
+  margin-bottom: 1.75rem;
+} 
+
+h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
-  font-size: 2rem;
 }
 
 :deep(li.p-highlight a )  {
@@ -324,13 +342,4 @@ h2 {
   background-color: red;
   color: red;
 }
-
-/* .minutes-edit-field {
-  width: 200px;
-  background-color: red;
-} */
-
-/* .minutes-edit-field {
-  background-color: red;
-} */
 </style>

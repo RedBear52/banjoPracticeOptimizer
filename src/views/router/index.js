@@ -6,8 +6,8 @@ import GoalKeeper from "../GoalKeeper.vue";
 import Header from "../../views/Header.vue";
 import NavBar from "../../views/NavBar.vue";
 import PracticeNotes from "../../views/PracticeNotes.vue";
-import PracticeRegimen from "../../views/PracticeRegimen.vue";
 import ExperimentalPracticeRegimen from "../../views/ExperimentalPracticeRegimen.vue";
+import PracticeTimer from "../../views/PracticeTimer.vue";
 
 
 const router = createRouter({
@@ -54,14 +54,14 @@ const router = createRouter({
             component: GoalKeeper
         },
         {
-            path: "/practice-regimen",
-            name: "PracticeRegimen",
-            component: PracticeRegimen
-        },
-        {
             path: "/experimental-practice-regimen",
             name: "ExperimentalPracticeRegimen",
             component: ExperimentalPracticeRegimen
+        },
+        {
+            path: "/timer/:id/:practiceItem/:minutes/:completed",
+            name: "PracticeTimer",
+            component: PracticeTimer
         }
     ]
 });
