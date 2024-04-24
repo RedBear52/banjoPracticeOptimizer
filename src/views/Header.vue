@@ -46,11 +46,15 @@ const toggle = (event) => {
   align-items: center;
   background-color: var(--color-primary);
   color: var(--color);
-  margin-bottom: 0;
+  margin-bottom: 1px;
 }
 
 img {
-  max-height: 200px;
+  max-height: 265px;
+  /* border: 1px solid var(--border-color-faded); */
+  border-radius: 8px;
+  /* box-shadow: 6px 6px 7px 1px var(--shadow-color); */
+  /* border-bottom: dashed 1px var(--shadow-color); */
 }
 
 .hamburger-container {

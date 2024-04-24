@@ -285,8 +285,7 @@ const deletePracticeItemFromFirebase = (id) => {
 }
 
 .margin-mitigate {
-    margin: 0;
-
+    padding-top: 0;
 }
 
 button {
@@ -299,8 +298,7 @@ button {
 } 
 
 h1 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
+ /* margin: 1rem; */
 }
 
 :deep(li.p-highlight a )  {

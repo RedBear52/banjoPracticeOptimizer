@@ -21,8 +21,10 @@
   --border-color: hsla(23, 5%, 47%, 1);
   --border-color-faded: hsla(0, 0%, 75%, 0.5);
   --strikethrough-color: hsla(23, 5%, 47%, 0.5);
-  --cheap-pine-color: rgb(85, 77, 72);
+  --cheap-pine-color: rgb(97, 52, 25);
+  --shadow-color:rgb(133, 110, 56);
   --button-color-border: hsla(30, 66%, 55%, 1);
+  --button-color-border-faded: hsla(30, 66%, 55%, 0.4);
   --button-color-text: hsla(30, 66%, 55%, 1);
   --button-color-tab-text: hsl(0, 2%, 31%);
   --button-color-background: hsla(38, 16%, 86%, 1);
@@ -49,8 +51,7 @@ html,
 body {
   display: flex;
   background-color: rgb(252,254,255);
-  /* background-color: var(--background-color); */
-  color: var(--color);
+  color: var(--cheap-pine-color);
   font-family: 'Lato', sans-serif;
   font-family: 'Cheapine-Sans', sans-serif;
 }
@@ -84,7 +85,7 @@ ul.nav {
 }
 
 .router-link.active {
-   text-decoration: none;
+  text-decoration: none;
   color: var(--link-color);
   border-bottom: dashed 2px var(--link-color);
   font-size: 1.25rem;
@@ -217,13 +218,14 @@ input:focus, textarea:focus {
   color: var(--color);
 }
 
-/* .dialog {
-  background-color: var(--primary-color);
-  border: 1px solid var(--button-color-border);
-  width: 50vw;
-  padding: 2rem;
-} */
+.data-table-container {
+  /* border-top: 4px dotted var(--button-color-border-faded); */
+}
 
+.data-table {
+  width: 100%;
+  margin: 1rem;
+}
 
 .modal-text {
   color: var(--color-primary-text);

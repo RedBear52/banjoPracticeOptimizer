@@ -122,10 +122,11 @@ const markAsCompleted = async () => {
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
-    width: 90vw;
+    width: 94vw;
     border: 1px solid hsl(0, 0%, 50%, 0.3);
     padding: 2rem;
     border-radius: 8px;
+    /* border-radius: 100%; */
     margin: 2rem;
     background-color: var(--container-background-color);
 }
