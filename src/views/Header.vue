@@ -1,13 +1,22 @@
 <template>
- <div class="header-container">
-   <div >
-    <img src="../assets/images/pbbLogo.jpg" alt="" />
-  </div>
-    <div class="card flex justify-content-center hamburger-container" >
-        <Button class="hamburger" type="button" icon="pi pi-bars" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" />
-        <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+  <div class="header-container">
+    <div>
+      <img src="../assets/images/pbbLogo.jpg" alt="" />
     </div>
- </div>
+    <div class="card flex justify-content-center hamburger-container">
+      <AvatarDropdown />
+
+      <Button
+        class="hamburger"
+        type="button"
+        icon="pi pi-bars"
+        @click="toggle"
+        aria-haspopup="true"
+        aria-controls="overlay_menu"
+      />
+      <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -15,31 +24,49 @@ import { ref } from 'vue'
 import Menu from 'primevue/menu'
 import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
+import AvatarDropdown from './AvatarDropdown.vue'
 import 'primeicons/primeicons.css'
 
 const router = useRouter()
 const menu = ref(null)
 const items = ref([
-    {
-        label: 'Goal Keeper',
-        icon: 'pi pi-fw pi-trophy',
-        command: () => { router.push('/goal-keeper') }
+  {
+    label: 'Goal Keeper',
+    icon: 'pi pi-fw pi-trophy',
+    command: () => {
+      router.push('/goal-keeper')
     },
-    {
-        label: 'Practice Regimen',
-        icon: 'pi pi-fw pi-receipt',
-        command: () => { router.push('/experimental-practice-regimen') }
+  },
+  {
+    label: 'Practice Regimen',
+    icon: 'pi pi-fw pi-receipt',
+    command: () => {
+      router.push('/experimental-practice-regimen')
     },
+  },
 ])
 
 const toggle = (event) => {
-    menu.value.toggle(event)
+  menu.value.toggle(event)
 }
-
 </script>
 
 
 <style>
+.card {
+  display: flex;
+}
+
+.card button {
+  background-color: var(--color-primary);
+  color: var(--color);
+  margin: 0;
+  padding-right: 0;
+  min-width: 50px;
+  cursor: pointer;
+  border: 1px solid var(--white);
+}
+
 .header-container {
   display: flex;
   justify-content: start;

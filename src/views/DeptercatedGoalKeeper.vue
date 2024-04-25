@@ -5,14 +5,21 @@
       <h3>Current Goals</h3>
       <li v-for="goal in goals" :key="goal.id">
         <span v-if="editingGoal && editingGoal.id === goal.id">
-          <InputText type="text" id="text" v-model="editingGoal.declaration" @blur="updateGoal" />
+          <InputText
+            type="text"
+            id="text"
+            v-model="editingGoal.declaration"
+            @blur="updateGoal"
+          />
           <button @click="editingGoal = null">Cancel</button>
           <button @click="updateGoal">Save</button>
         </span>
         <span v-else>
           {{ goal.declaration }}
           <button class="edit-btn" @click="editGoal(goal.id)">Edit Goal</button>
-          <button class="delete-btn" @click="deleteGoal(goal.id)">Delete Goal</button>
+          <button class="delete-btn" @click="deleteGoal(goal.id)">
+            Delete Goal
+          </button>
         </span>
       </li>
     </ul>
@@ -20,7 +27,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
 import { ref, onMounted } from 'vue'
 import InputText from 'primevue/inputtext'
 import { useToast } from 'vue-toastification'
@@ -54,7 +60,9 @@ const editGoal = (id) => {
 }
 
 const updateGoal = () => {
-  const goalIndex = goals.value.findIndex((goal) => goal.id === editingGoal.value.id)
+  const goalIndex = goals.value.findIndex(
+    (goal) => goal.id === editingGoal.value.id
+  )
   if (goalIndex !== -1) {
     goals.value[goalIndex] = editingGoal.value
     addGoalsToLocalStorage()

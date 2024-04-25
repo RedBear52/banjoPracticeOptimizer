@@ -8,7 +8,8 @@ import NavBar from "../../views/NavBar.vue";
 import PracticeNotes from "../../views/PracticeNotes.vue";
 import ExperimentalPracticeRegimen from "../../views/ExperimentalPracticeRegimen.vue";
 import PracticeTimer from "../../views/PracticeTimer.vue";
-
+import Profile from "../../views/Profile.vue";
+import Register from "../../views/Register.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -62,7 +63,17 @@ const router = createRouter({
             path: "/timer/:id/:practiceItem/:minutes/:completed",
             name: "PracticeTimer",
             component: PracticeTimer
-        }
+        },
+        {
+            path: "/profile",
+            name: "Profile",
+            component: Profile
+        },
+         {
+            path: "/register",
+            name: "Register",
+            component: Register
+        },
     ]
 });
 

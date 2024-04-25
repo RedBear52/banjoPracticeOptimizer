@@ -1,34 +1,51 @@
 <template>
   <div class="add-goal-container">
     <div class="component-container">
-    <h2>Add Practice Item</h2>
-    <form @submit.prevent="onSubmit">
-      <div class="form-control">
-        <label for="practice-day"></label>
-        <Dropdown  v-model="selectedDay" :options="days" optionLabel="name" placeholder="Day of the week" />
-      </div>
-      <div class="form-control">
-        <label for="practice-item"></label>
-        <InputText type="text" id="text" v-model="text" placeholder="Enter a new practice item" />
-      </div>
-      <div class="form-control">
-        <label for="practice-time">Number of minutes to focus on this practice item</label>
-        <InputText type="number" id="number" v-model="number" placeholder="minutes" />
-      </div>
-      <button type="submit">Add Practice Item</button>
-    </form>
-  </div>
+      <h2>Add Practice Item</h2>
+      <form @submit.prevent="onSubmit">
+        <div class="form-control">
+          <label for="practice-day"></label>
+          <Dropdown
+            v-model="selectedDay"
+            :options="days"
+            optionLabel="name"
+            placeholder="Day of the week"
+          />
+        </div>
+        <div class="form-control">
+          <label for="practice-item"></label>
+          <InputText
+            type="text"
+            id="text"
+            v-model="text"
+            placeholder="Enter a new practice item"
+          />
+        </div>
+        <div class="form-control">
+          <label for="practice-time"
+            >Number of minutes to focus on this practice item</label
+          >
+          <InputText
+            type="number"
+            id="number"
+            v-model="number"
+            placeholder="minutes"
+          />
+        </div>
+        <button type="submit">Add Practice Item</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref} from 'vue'
+import { ref } from 'vue'
 import { db } from '../main'
 import { collection, addDoc } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import InputText from 'primevue/inputtext';
-import Dropdown from 'primevue/dropdown';
+import InputText from 'primevue/inputtext'
+import Dropdown from 'primevue/dropdown'
 
 const router = useRouter()
 const toast = useToast()
@@ -41,14 +58,16 @@ const days = ref([
   { name: 'Thursday', code: 'Th' },
   { name: 'Friday', code: 'F' },
   { name: 'Saturday', code: 'S' },
-  { name: 'Sunday', code: 'Su' }
+  { name: 'Sunday', code: 'Su' },
 ])
 const number = ref(0)
 const practiceItems = ref([])
 
-const onSubmit = async ()  => {
+const onSubmit = async () => {
   if (!text.value || number.value <= 0 || !selectedDay.value) {
-    toast.error('Please enter a valid practice item AND valid practice time value AND day of the week!')
+    toast.error(
+      'Please enter a valid practice item AND valid practice time value AND day of the week!'
+    )
     return
   }
   try {
@@ -56,20 +75,19 @@ const onSubmit = async ()  => {
       day: selectedDay.value.name,
       practiceItem: text.value,
       minutes: number.value,
-      completed: false
-    });
+      completed: false,
+    })
   } catch {
-    console.error('Error adding document: ', e);
+    console.error('Error adding document: ', e)
   }
-   toast.success('Practice item successfully added!', {
+  toast.success('Practice item successfully added!', {
     position: 'top-center',
-    timeout: 2000
+    timeout: 2000,
   })
   text.value = ''
 
   router.push('/experimental-practice-regimen')
 }
-
 </script>
 
 <style scoped>
@@ -95,6 +113,5 @@ const onSubmit = async ()  => {
 
 .component-container h2 {
   align-self: flex-start;
-
 }
 </style>
