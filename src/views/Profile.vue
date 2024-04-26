@@ -1,30 +1,31 @@
 <template>
-  <h1>Profile</h1>
-  <div class="profile-details-container">
-    <div class="profile-details">
-      <img id="avatar" :src="photoURL" alt="profile photo" />
-      <p>Username: {{ username }}</p>
-      <p>Email: {{ email }}</p>
-    </div>
-    <div class="profile-edit">
-      <!-- <h2>Edit Profile</h2> -->
-      <form action="submit">
-        <!-- <div class="img-editor">
+  <div class="profile-container">
+    <h1>Profile</h1>
+    <div>
+      <div class="profile-details">
+        <img id="avatar" :src="photoURL" alt="profile photo" />
+        <p>Username: {{ username }}</p>
+        <p>Email: {{ email }}</p>
+      </div>
+      <div class="profile-edit">
+        <!-- <h2>Edit Profile</h2> -->
+        <form action="submit">
+          <!-- <div class="img-editor">
           <InputText v-model="photoURL" placheholder="img url"> </InputText>
         </div> -->
-        <div class="p-field">
-          <InputText
-            class="p-inputtext-lg"
-            id="username"
-            v-if="isEditing"
-            v-model="usernameInput"
-            autocomplete="username"
-            placeholder="username"
-            :readonly="!isEditing"
-          />
-        </div>
-        <!-- allowing users to edit emails (along w the requisite verification) requires an upgrade in firebase plan -->
-        <!-- <div class="p-field">
+          <div class="p-field">
+            <InputText
+              class="p-inputtext-lg"
+              id="username"
+              v-if="isEditing"
+              v-model="usernameInput"
+              autocomplete="username"
+              placeholder="username"
+              :readonly="!isEditing"
+            />
+          </div>
+          <!-- allowing users to edit emails (along w the requisite verification) requires an upgrade in firebase plan -->
+          <!-- <div class="p-field">
           <InputText
             class="p-inputtext-lg"
             id="email"
@@ -33,12 +34,13 @@
             placeholder="email"
             :readonly="!isEditing"
           /> -->
-        <!-- </div> -->
-        <div class="btn-container">
-          <Button class="btn" label="Edit" @click="edit" v-if="!isEditing" />
-          <Button class="btn" label="Save" @click="save" v-if="isEditing" />
-        </div>
-      </form>
+          <!-- </div> -->
+          <div class="btn-container">
+            <Button class="btn" label="Edit" @click="edit" v-if="!isEditing" />
+            <Button class="btn" label="Save" @click="save" v-if="isEditing" />
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +54,7 @@ import Button from 'primevue/button'
 import { getAuth, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../main'
+import Card from 'primevue/card'
 
 const auth = getAuth()
 const user = auth.currentUser
@@ -116,5 +119,17 @@ const save = async () => {
   height: 100px;
   border-radius: 50%;
   margin-bottom: 1rem;
+}
+
+.profile-container {
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* margin-top: 2rem; */
+  width: 80vw;
+  margin-left: 2rem;
+  border: 1px solid hsl(0, 0%, 50%, 0.3);
+  border-radius: 8px;
+  padding: 2rem;
 }
 </style>
