@@ -1,32 +1,43 @@
-<template>
-  <h1>Log In</h1>
-  <div class="card">
-    <form action="submit">
-      <div class="p-field">
-        <!-- <label for="username">Username</label> -->
-        <InputText
-          class="p-inputtext-lg"
-          id="email"
-          v-model="email"
-          autocomplete="email"
-          placeholder="email"
-        />
-      </div>
-      <div class="p-field">
-        <Password
-          id="password"
-          v-model="password"
-          autocomplete="password"
-          placeholder="password"
-          :feedback="false"
-        />
-      </div>
-      <div class="error-container">
-        <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
-      </div>
-      <Button class="btn" label="Sign Up" @click="login" />
-      <Button class="btn" label="Sign in w Google" @click="signInWithGoogle" />
-    </form>
+<template >
+  <div class="main-container">
+    <div class="card">
+      <form action="submit">
+        <div class="p-field">
+          <h1>Log In</h1>
+
+          <!-- <label for="username">Username</label> -->
+          <InputText
+            class="p-inputtext-lg"
+            id="email"
+            v-model="email"
+            autocomplete="email"
+            placeholder="email"
+          />
+        </div>
+        <div class="p-field">
+          <Password
+            class="p-inputtext-lg"
+            id="password"
+            :inputProps="{ autocomplete: true }"
+            v-model="password"
+            placeholder="password"
+            :feedback="false"
+          />
+        </div>
+        <div class="error-container">
+          <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
+        </div>
+        <div class="btn-container">
+          <Button class="btn" label="Log In" @click="login" />
+          <Button
+            class="google-btn"
+            label="Log in w Google"
+            icon="pi pi-google"
+            @click="signInWithGoogle"
+          />
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -105,6 +116,14 @@ const signInWithGoogle = () => {
 </script>
 
 <style scoped>
+.p-field {
+  width: 100%;
+}
+
+.p-inputtext-lg {
+  width: 80%;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -123,6 +142,18 @@ const signInWithGoogle = () => {
   margin-top: 2rem;
 }
 
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  min-width: 300px;
+  justify-content: space-between;
+}
+
+.google-btn {
+  margin-top: 2rem;
+  border: 1px solid hsl(0, 0%, 50%, 0.3);
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -133,6 +164,12 @@ form {
   border: 1px solid hsl(0, 0%, 50%, 0.3);
   box-shadow: 4px 4px 10px hsl(0, 0%, 50%, 0.3);
   padding: 4rem;
+  padding-top: 0;
   border-radius: 8px;
+  margin-top: -4rem;
+}
+
+h1 {
+  justify-self: flex-start;
 }
 </style>

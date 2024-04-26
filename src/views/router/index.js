@@ -3,10 +3,8 @@ import HomeView from "../../views/HomeView.vue";
 import AddGoals from "../../views/AddGoals.vue";
 import AddPracticeItem from "../../views/AddPracticeItem.vue";
 import GoalKeeper from "../GoalKeeper.vue";
-import Header from "../../views/Header.vue";
-import NavBar from "../../views/NavBar.vue";
 import PracticeNotes from "../../views/PracticeNotes.vue";
-import ExperimentalPracticeRegimen from "../../views/ExperimentalPracticeRegimen.vue";
+import PracticeRegimen from "../PracticeRegimen.vue";
 import PracticeTimer from "../../views/PracticeTimer.vue";
 import Profile from "../../views/Profile.vue";
 import Register from "../../views/Register.vue";
@@ -31,21 +29,11 @@ const router = createRouter({
             name: "AddPracticeItem",
             component: AddPracticeItem
         },
-        {
-            path: "/goal-keeper",
-            name: "GoalKeeper",
-            component: GoalKeeper
-        },
-        {
-            path: "/header",
-            name: "Header",
-            component: Header
-        },
-        {
-            path: "/nav-bar",
-            name: "NavBar",
-            component: NavBar
-        },
+        // {
+        //     path: "/nav-bar",
+        //     name: "NavBar",
+        //     component: NavBar
+        // },
         {
             path: "/practice-notes",
             name: "PracticeNotes",
@@ -54,15 +42,21 @@ const router = createRouter({
         {
             path: "/goal-keeper",
             name: "GoalKeeper",
-            component: GoalKeeper
+            component: GoalKeeper,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
-            path: "/experimental-practice-regimen",
-            name: "ExperimentalPracticeRegimen",
-            component: ExperimentalPracticeRegimen
+            path: "/practice-regimen/",
+            name: "PracticeRegimen",
+            component: PracticeRegimen,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
-            path: "/timer/:id/:practiceItem/:minutes/:completed",
+            path: "/timer/:id/:practiceItem/:minutes/:completed/:day",
             name: "PracticeTimer",
             component: PracticeTimer
         },

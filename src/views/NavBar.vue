@@ -37,8 +37,8 @@
         <router-link
           class="router-link"
           active-class="active"
-          to="/experimental-practice-regimen"
-          >EXPERIMENTAL Practice Regimen</router-link
+          to="/practice-regimen"
+          >Practice Regimen</router-link
         >
       </li>
     </ul>

@@ -1,36 +1,40 @@
 <template>
-  <h1>Register</h1>
-  <div class="card">
-    <form action="submit">
-      <div class="p-field">
-        <!-- <label for="username">Username</label> -->
-        <InputText
-          class="p-inputtext-lg"
-          id="email"
-          v-model="email"
-          autocomplete="email"
-          placeholder="email"
-        />
-      </div>
-      <div class="p-field">
-        <!-- <label for="password">Password</label> -->
-        <Password
-          class="p-inputtext-lg"
-          id="password"
-          v-model="password"
-          placeholder="password"
-        />
-      </div>
-      <div class="btn-container">
-        <Button class="btn" label="Sign Up" @click="register" />
-        <Button
-          class="google-btn"
-          label="Sign Up with Google"
-          icon="pi pi-google"
-          @click="signInWithGoogle"
-        />
-      </div>
-    </form>
+  <div class="main-container">
+    <div class="card">
+      <form action="submit">
+        <div class="p-field">
+          <h1>Register</h1>
+
+          <!-- <label for="username">Username</label> -->
+          <InputText
+            class="p-inputtext-lg"
+            id="email"
+            v-model="email"
+            autocomplete="email"
+            placeholder="email"
+          />
+        </div>
+        <div class="p-field">
+          <!-- <label for="password">Password</label> -->
+          <Password
+            class="p-inputtext-lg"
+            id="password"
+            v-model="password"
+            placeholder="password"
+            :inputProps="{ autocomplete: true }"
+          />
+        </div>
+        <div class="btn-container">
+          <Button class="btn" label="Sign Up" @click="register" />
+          <Button
+            class="google-btn"
+            label="Sign Up with Google"
+            icon="pi pi-google"
+            @click="signInWithGoogle"
+          />
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -93,6 +97,14 @@ const signInWithGoogle = () => {
 </script>
 
 <style scoped>
+.p-field {
+  width: 100%;
+}
+
+.p-inputtext-lg {
+  width: 80%;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -133,6 +145,12 @@ form {
   border: 1px solid hsl(0, 0%, 50%, 0.3);
   box-shadow: 4px 4px 10px hsl(0, 0%, 50%, 0.3);
   padding: 4rem;
+  padding-top: 0;
   border-radius: 8px;
+  margin-top: -4rem;
+}
+
+h1 {
+  justify-self: flex-start;
 }
 </style>

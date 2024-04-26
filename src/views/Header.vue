@@ -41,7 +41,7 @@ const items = ref([
     label: 'Practice Regimen',
     icon: 'pi pi-fw pi-receipt',
     command: () => {
-      router.push('/experimental-practice-regimen')
+      router.push('/practice-regimen/')
     },
   },
 ])

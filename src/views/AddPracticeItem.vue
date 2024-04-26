@@ -91,7 +91,7 @@ const onSubmit = async () => {
 
   text.value = ''
 
-  router.push('/experimental-practice-regimen')
+  router.push('practice-regimen')
 }
 </script>
 

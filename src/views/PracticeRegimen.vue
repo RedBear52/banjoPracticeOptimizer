@@ -141,7 +141,7 @@
 
 <script setup>
 import { ref, onMounted, reactive, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import {
   collection,
   getDocs,
@@ -162,16 +162,10 @@ import InputSwitch from 'primevue/inputswitch'
 import TabMenu from 'primevue/tabmenu'
 import 'primeicons/primeicons.css'
 
-const id = ref(0)
-const practiceItem = ref('')
-const minutes = ref(0)
-const completed = ref(false)
 const practiceRegimen = ref([])
 const filteredRegimen = ref([])
-const checked = ref(false)
 const editingItem = ref(null)
 const tempItem = reactive({ id: null, practiceItem: '' })
-const cancel = ref(false)
 const router = useRouter()
 const auth = getAuth()
 
@@ -265,7 +259,9 @@ onMounted(() => {
         const q = query(
           collection(db, 'practiceRegimen'),
           where('userId', '==', user.uid)
+          // where('day', '==', useRouter().currentRoute.value.params.day)
         )
+
         const querySnapshot = await getDocs(q)
         console.log(querySnapshot)
         practiceRegimen.value = querySnapshot.docs.map((doc) => ({
@@ -304,7 +300,6 @@ const toggleStatusSwitch = (status) => {
 const updateFirestoreCompletedStatus = async (status) => {
   try {
     await updateDoc(doc(db, 'practiceRegimen', status.id), {
-      // find firestore item by id and update the completed status
       completed: status.completed,
     })
     console.log(status.id)
@@ -341,6 +336,7 @@ const openPracticeTimer = (id) => {
       practiceItem: item.practiceItem,
       minutes: item.minutes,
       completed: item.completed,
+      day: item.day,
     },
   })
 }
@@ -363,7 +359,6 @@ const updatePracticeItem = () => {
 }
 
 const updatePracticeItemInFirebase = () => {
-  //  update practice item's 'item' and/or 'minutes' in firestore
   try {
     updateDoc(doc(db, 'practiceRegimen', editingItem.value.id), {
       practiceItem: editingItem.value.practiceItem,
@@ -403,17 +398,10 @@ const deletePracticeItemFromFirebase = (id) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin-top: 0; */
-  /* padding-top: 0; */
 }
 
 .data-table {
   width: 80%;
-}
-
-.margin-mitigate {
-  padding-top: 0;
-  margin-top: 0;
 }
 
 button {
@@ -459,11 +447,6 @@ button {
 i.completed {
   filter: grayscale(100%);
   cursor: not-allowed;
-}
-
-.p-tabmenuitem {
-  background-color: red;
-  color: red;
 }
 
 h1 {

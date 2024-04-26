@@ -68,25 +68,25 @@ import 'primeicons/primeicons.css'
 import Tooltip from 'primevue/tooltip'
 
 const router = useRouter()
+const route = useRouter().currentRoute.value
 const toast = useToast()
 const id = ref(0)
 const practiceItem = ref('')
+const day = ref('')
 const minutes = ref(0)
-const seconds = ref(0)
 const completed = ref(false)
-const paused = ref(false)
 const timeElapsed = ref(2)
 const interval = ref(undefined)
 const state = ref('stopped' | 'running' | 'paused')
 
 onMounted(() => {
-  const params = useRouter().currentRoute.value.params
+  const params = route.params
   id.value = params.id
   practiceItem.value = params.practiceItem
   minutes.value = params.minutes
   completed.value = params.completed
+  day.value = params.day
   timeElapsed.value = minutes.value * 60
-  console.log(id.value, practiceItem.value, minutes.value, completed.value)
 })
 
 const formatTime = (elapsedtime) => {
@@ -117,16 +117,18 @@ const pause = () => {
 
 const restart = () => {
   state.value = 'stopped'
-  console.log('restart')
-  // reset clock to original time
   timeElapsed.value = minutes.value * 60
 }
 
 const markAsCompleted = async () => {
+  const params = route.params
+  console.log(params)
   try {
     await updateDoc(doc(db, 'practiceRegimen', id.value), {
       completed: true,
+      day: params.day,
     })
+    console.log(params.day, params.day)
   } catch (error) {
     console.error('Error updating document: ', error)
   }
@@ -135,7 +137,7 @@ const markAsCompleted = async () => {
     position: 'top-center',
   })
 
-  router.push('/experimental-practice-regimen')
+  router.push('/practice-regimen/')
 }
 </script>
 
