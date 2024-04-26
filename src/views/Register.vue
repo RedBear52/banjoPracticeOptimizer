@@ -62,13 +62,13 @@ const register = () => {
       // Signed in
       const user = userCredential.user
       console.log(user)
+      router.push('/profile')
     })
     .catch((error) => {
       const errorCode = error.code
       const errorMessage = error.message
       console.log(errorCode, errorMessage)
     })
-  router.push('/profile')
 }
 
 const signInWithGoogle = () => {
@@ -81,6 +81,7 @@ const signInWithGoogle = () => {
       // The signed-in user info.
       const user = result.user
       console.log(user)
+      router.push('/profile')
     })
     .catch((error) => {
       // Handle Errors here.
@@ -92,7 +93,6 @@ const signInWithGoogle = () => {
       const credential = GoogleAuthProvider.credentialFromError(error)
       console.log(errorCode, errorMessage, email, credential)
     })
-  router.push('/profile')
 }
 </script>
 

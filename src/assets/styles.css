@@ -158,7 +158,8 @@ button {
   margin: 0.5rem;
   cursor: pointer;
   transition: 0.3s;
-  font-size: 0.75rem;
+  font-family: 'CheapPine-Sans', sans-serif;  
+  font-size: 1.25rem;
   font-weight: bold;
 }
 

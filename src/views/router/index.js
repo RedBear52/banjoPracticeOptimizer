@@ -29,11 +29,6 @@ const router = createRouter({
             name: "AddPracticeItem",
             component: AddPracticeItem
         },
-        // {
-        //     path: "/nav-bar",
-        //     name: "NavBar",
-        //     component: NavBar
-        // },
         {
             path: "/practice-notes",
             name: "PracticeNotes",
