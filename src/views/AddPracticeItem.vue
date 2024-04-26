@@ -42,11 +42,13 @@
 import { ref } from 'vue'
 import { db } from '../main'
 import { collection, addDoc } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 
+const auth = getAuth()
 const router = useRouter()
 const toast = useToast()
 const text = ref([])
@@ -76,6 +78,7 @@ const onSubmit = async () => {
       practiceItem: text.value,
       minutes: number.value,
       completed: false,
+      userId: auth.currentUser.uid,
     })
   } catch {
     console.error('Error adding document: ', e)
@@ -84,6 +87,8 @@ const onSubmit = async () => {
     position: 'top-center',
     timeout: 2000,
   })
+  console.log(`userId: ${auth.currentUser.uid}`)
+
   text.value = ''
 
   router.push('/experimental-practice-regimen')

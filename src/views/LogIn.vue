@@ -1,5 +1,5 @@
 <template>
-  <h1>Register</h1>
+  <h1>Log In</h1>
   <div class="card">
     <form action="submit">
       <div class="p-field">
@@ -13,23 +13,19 @@
         />
       </div>
       <div class="p-field">
-        <!-- <label for="password">Password</label> -->
         <Password
-          class="p-inputtext-lg"
           id="password"
           v-model="password"
+          autocomplete="password"
           placeholder="password"
+          :feedback="false"
         />
       </div>
-      <div class="btn-container">
-        <Button class="btn" label="Sign Up" @click="register" />
-        <Button
-          class="google-btn"
-          label="Sign Up with Google"
-          icon="pi pi-google"
-          @click="signInWithGoogle"
-        />
+      <div class="error-container">
+        <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
       </div>
+      <Button class="btn" label="Sign Up" @click="login" />
+      <Button class="btn" label="Sign in w Google" @click="signInWithGoogle" />
     </form>
   </div>
 </template>
@@ -42,41 +38,58 @@ import Password from 'primevue/password'
 import { useRouter } from 'vue-router'
 import {
   getAuth,
-  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
-const value = ref(null)
+const value = ref('null')
 const email = ref('')
+const errorMessage = ref(null)
 const password = ref('')
 const router = useRouter()
-
-// TODO: Add more validation and error handling
-const register = () => {
-  createUserWithEmailAndPassword(getAuth(), email.value, password.value)
+// Add more validation and error handling
+const login = () => {
+  signInWithEmailAndPassword(getAuth(), email.value, password.value)
     .then((userCredential) => {
       // Signed in
+      console.log('successfully signed in!')
       const user = userCredential.user
       console.log(user)
+      router.push('/profile')
     })
     .catch((error) => {
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorCode, errorMessage)
+      switch (error.code) {
+        case 'auth/invalid-email':
+          errorMessage.value = 'Invalid email'
+          break
+        case 'auth/user-not-found':
+          errorMessage.value = 'No account with that email was found'
+          break
+        case 'auth/invalid-credential':
+          errorMessage.value = 'Incorrect password'
+          break
+        default:
+          errorMessage.value = 'Email or password was incorrect'
+          break
+      }
+
+      const errCode = error.code
+      const errMessage = error.message
+      console.log(errCode, errMessage)
     })
-  router.push('/profile')
 }
 
 const signInWithGoogle = () => {
   const provider = new GoogleAuthProvider()
   signInWithPopup(getAuth(), provider)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access Google APIs.
-      // const credential = GoogleAuthProvider.credentialFromResult(result)
-      // const token = credential.accessToken
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result)
+      const token = credential.accessToken
       // The signed-in user info.
       const user = result.user
       console.log(user)
+      router.push('/profile')
     })
     .catch((error) => {
       // Handle Errors here.
@@ -88,7 +101,6 @@ const signInWithGoogle = () => {
       const credential = GoogleAuthProvider.credentialFromError(error)
       console.log(errorCode, errorMessage, email, credential)
     })
-  router.push('/profile')
 }
 </script>
 
@@ -109,18 +121,6 @@ const signInWithGoogle = () => {
   cursor: pointer;
   background-color: hsla(30, 66%, 65%, 1);
   margin-top: 2rem;
-}
-
-.btn-container {
-  display: flex;
-  flex-direction: row;
-  min-width: 300px;
-  justify-content: space-between;
-}
-
-.google-btn {
-  margin-top: 2rem;
-  border: 1px solid hsl(0, 0%, 50%, 0.3);
 }
 
 form {

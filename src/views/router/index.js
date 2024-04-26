@@ -10,6 +10,8 @@ import ExperimentalPracticeRegimen from "../../views/ExperimentalPracticeRegimen
 import PracticeTimer from "../../views/PracticeTimer.vue";
 import Profile from "../../views/Profile.vue";
 import Register from "../../views/Register.vue";
+import LogIn from "../../views/LogIn.vue";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -67,14 +69,46 @@ const router = createRouter({
         {
             path: "/profile",
             name: "Profile",
-            component: Profile
+            component: Profile,
+            meta: {
+                requiresAuth: true
+            }
         },
          {
             path: "/register",
             name: "Register",
             component: Register
         },
+        {
+            path: "/login",
+            name: "Login",
+            component: LogIn
+        }
     ]
 });
+
+const getCurrentUser = () => {
+ return new Promise((resolve, reject) => {
+     const removeListener = onAuthStateChanged(getAuth(), user => {
+         removeListener()
+         resolve(user)
+     }, reject)
+ })
+};
+
+router.beforeEach(async (to, from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+       if(await getCurrentUser()) {
+           next()
+       } else {
+        alert("You must be logged in to see this page")
+        next("/")
+    } 
+    } else {
+        next()
+    }
+})
+
+
 
 export default router;

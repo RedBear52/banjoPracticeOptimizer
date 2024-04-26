@@ -17,7 +17,6 @@
               ><i class="pi pi-plus"></i><span>Add Practice Item</span></Button
             ></router-link
           >
-
           <TabMenu :model="tabItems"> </TabMenu>
         </div>
       </template>
@@ -141,7 +140,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   collection,
@@ -149,8 +148,11 @@ import {
   updateDoc,
   doc,
   deleteDoc,
+  where,
+  query,
 } from 'firebase/firestore'
 import { db } from '../main'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Button from 'primevue/button'
@@ -171,6 +173,7 @@ const editingItem = ref(null)
 const tempItem = reactive({ id: null, practiceItem: '' })
 const cancel = ref(false)
 const router = useRouter()
+const auth = getAuth()
 
 const tabItems = [
   {
@@ -252,24 +255,40 @@ const tabItems = [
   },
 ]
 
-onMounted(async () => {
-  try {
-    const querySnapshot = await getDocs(collection(db, 'practiceRegimen'))
-    practiceRegimen.value = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
-    filteredRegimen.value.filter((item) => item.day === 'Monday')
-    const mondayRegimen = practiceRegimen.value.filter(
-      (item) => item.day === 'Monday'
-    )
-    console.log(mondayRegimen)
-    filteredRegimen.value = mondayRegimen
+onMounted(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      router.push('/login')
+    } else {
+      console.log(user.uid)
+      try {
+        const q = query(
+          collection(db, 'practiceRegimen'),
+          where('userId', '==', user.uid)
+        )
+        const querySnapshot = await getDocs(q)
+        console.log(querySnapshot)
+        practiceRegimen.value = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        filteredRegimen.value.filter((item) => item.day === 'Monday')
+        const mondayRegimen = practiceRegimen.value.filter(
+          (item) => item.day === 'Monday'
+        )
+        console.log(mondayRegimen)
+        filteredRegimen.value = mondayRegimen
 
-    console.log(practiceRegimen.value)
-  } catch (error) {
-    console.error('Error retrieving documents: ', error)
-  }
+        console.log(filteredRegimen.value)
+      } catch (error) {
+        console.error('Error retrieving documents: ', error)
+      }
+    }
+  })
+
+  onUnmounted(() => {
+    unsubscribe()
+  })
 })
 
 const getStatusText = (status) => {
@@ -384,7 +403,8 @@ const deletePracticeItemFromFirebase = (id) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0;
+  /* margin-top: 0; */
+  /* padding-top: 0; */
 }
 
 .data-table {
@@ -393,6 +413,7 @@ const deletePracticeItemFromFirebase = (id) => {
 
 .margin-mitigate {
   padding-top: 0;
+  margin-top: 0;
 }
 
 button {
@@ -443,5 +464,9 @@ i.completed {
 .p-tabmenuitem {
   background-color: red;
   color: red;
+}
+
+h1 {
+  margin-top: 0;
 }
 </style>

@@ -106,15 +106,18 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import {
   collection,
   getDocs,
   updateDoc,
   doc,
   deleteDoc,
+  query,
+  where,
 } from 'firebase/firestore'
 import { db } from '../main'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import InputText from 'primevue/inputtext'
 import InputSwitch from 'primevue/inputswitch'
 import Button from 'primevue/button'
@@ -122,20 +125,37 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import 'primeicons/primeicons.css'
 
+const auth = getAuth()
 const goals = ref([])
 const editingGoal = ref(null)
 
-onMounted(async () => {
-  try {
-    const querySnapshot = await getDocs(collection(db, 'goals'))
-    goals.value = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
-    console.log(goals.value)
-  } catch (error) {
-    console.error('Error retrieving documents: ', error)
-  }
+onMounted(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        const q = query(
+          collection(db, 'goals'),
+          where('userId', '==', user.uid)
+        )
+        const querySnapshot = await getDocs(q)
+        goals.value = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        console.log(goals.value)
+      } catch (error) {
+        console.error('Error retrieving documents: ', error)
+      }
+    } else {
+      console.log('User is not signed in')
+      router.push('/login')
+    }
+  })
+
+  // Call unsubscribe when the component unmounts
+  onUnmounted(() => {
+    unsubscribe()
+  })
 })
 
 const addNote = (id) => {
@@ -267,6 +287,11 @@ i.completed {
 .data-table {
   width: 80%;
 }
+
+h1 {
+  margin-top: 0;
+}
+
 h2 {
   margin-bottom: 0.5rem;
   font-size: 2rem;

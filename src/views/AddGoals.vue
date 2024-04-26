@@ -24,10 +24,12 @@ import InputText from 'primevue/inputtext'
 import { useRouter } from 'vue-router'
 import { db } from '../main'
 import { collection, addDoc } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
 const toast = useToast()
 const text = ref('')
 const router = useRouter()
+const auth = getAuth()
 
 const onSubmit = async () => {
   if (!text.value) {
@@ -38,8 +40,10 @@ const onSubmit = async () => {
     const docRef = await addDoc(collection(db, 'goals'), {
       declaration: text.value,
       completed: false,
+      userId: auth.currentUser.uid,
     })
-    console.log('Document written with ID: ', docRef.id)
+    console.log('Document written with Doc ID: ', docRef.id)
+    console.log('Document written with User ID: ', docRef.userId)
   } catch (e) {
     console.error('Error adding document: ', e)
   }
