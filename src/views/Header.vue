@@ -71,17 +71,22 @@ const toggle = (event) => {
   display: flex;
   justify-content: start;
   align-items: center;
-  background-color: var(--color-primary);
+  background-color: var(--cheap-pine-color-faded-text);
+  border-bottom: 2px solid var(--cheap-pine-color-faded);
+  border-color: var(--cheap-pine-color-faded-300);
+  width: 20%;
   color: var(--color);
   margin-bottom: 1px;
+  padding-bottom: 1rem;
+  width: 100vw;
 }
 
 img {
-  max-height: 265px;
-  /* border: 1px solid var(--border-color-faded); */
+  max-height: 125px;
   border-radius: 8px;
-  /* box-shadow: 6px 6px 7px 1px var(--shadow-color); */
-  /* border-bottom: dashed 1px var(--shadow-color); */
+  border: dotted 4px var(--butterscotch);
+  margin-left: 1rem;
+  margin-top: 1rem;
 }
 
 .hamburger-container {
@@ -98,7 +103,6 @@ img {
   border: none;
   margin: 0;
   padding: 0;
-  /* font-size: larger; */
   cursor: pointer;
 }
 

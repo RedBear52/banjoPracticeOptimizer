@@ -1,9 +1,9 @@
 <template>
-  <main>
-    <Header />
-    <!-- <NavBar /> -->
-    <RouterView />
-  </main>
+  <!-- <main> -->
+  <Header />
+  <!-- <NavBar /> -->
+  <RouterView />
+  <!-- </main> -->
 </template>
 
 <script setup>

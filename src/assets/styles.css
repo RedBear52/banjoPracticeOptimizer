@@ -21,10 +21,14 @@
   --border-color: hsla(23, 5%, 47%, 1);
   --border-color-faded: hsla(0, 0%, 75%, 0.5);
   --strikethrough-color: hsla(23, 5%, 47%, 0.5);
-  --cheap-pine-color: rgb(97, 52, 25);
+  --cheap-pine-color: rgb(85, 77, 72);
+  --cheap-pine-color-faded: rgba(85, 77, 72, 0.1);
+  --cheap-pine-color-faded-300: rgba(85, 77, 72, 0.3);
+  --cheap-pine-color-faded-text: rgba(85, 77, 72, 0.7);
   --shadow-color:rgb(133, 110, 56);
   --button-color-border: hsla(30, 66%, 55%, 1);
   --button-color-border-faded: hsla(30, 66%, 55%, 0.4);
+  --border-color-faded: hsla(0, 0%, 75%, 0.9);
   --button-color-text: hsla(30, 66%, 55%, 1);
   --button-color-tab-text: hsl(0, 2%, 31%);
   --form-color-background: hsl(75, 3%, 31%);
@@ -37,33 +41,22 @@
 * {
   box-sizing: border-box;
   list-style: none;
-}
-.main-container {
-  width: 100vw;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100vw;
+  margin: 0;
 }
 
 html,
 body {
   display: flex;
-  background-color: rgb(252,254,255);
+  /* background-color: aqua; */
+  /* background-color: rgb(252,254,255); */
   color: var(--cheap-pine-color);
-  font-family: 'Lato', sans-serif;
   font-family: 'Cheapine-Sans', sans-serif;
+  width: 100vw;
 }
 
-.header-conainer  {
-  display: flex;
-  justify-content: start;
-  flex-direction: row;
-  align-items: center;
-  background-color: red;
-  color: var(--color);
+.header-container  {
+  width: 100vw;
+  /* margin-left: 4rem; */
 }
 
 ul.nav {
@@ -98,7 +91,6 @@ ul.nav {
 }
 
 h1 {
-  color: var(--color-text);
   font-family: 'CheapPine-Sans', sans-serif;
   color: var(--cheap-pine-color);
   font-size: 2.5rem;
@@ -107,7 +99,7 @@ h1 {
 }
 
 h2 {
-  color: var(--color-muted);
+  /* color: var(--color-muted); */
   font-size: x-large;
   font-family: 'CheapPine-Sans', sans-serif;
   color: var(--cheap-pine-color);
@@ -116,22 +108,22 @@ h2 {
 }
 
 h3 {
-  color: var(--color-text);
+  /* color: var(--color-text); */
   font-size: large;
 }
 
 h4 {
-  color: var(--color-text);
+  /* color: var(--color-text); */
   font-size: medium;
 }
 
 h5 {
-  color: var(--color-text);
+  /* color: var(--color-text); */
   font-size: small;
 }
 
 li {
-  color: var(--color-text);
+  /* color: var(--color-text); */
 }
 
 #text {
@@ -158,8 +150,8 @@ button {
   margin: 0.5rem;
   cursor: pointer;
   transition: 0.3s;
-  font-family: 'CheapPine-Sans', sans-serif;  
-  font-size: 1.25rem;
+  /* font-family: 'CheapPine-Sans', sans-serif;   */
+  font-size: 1rem;
   font-weight: bold;
 }
 

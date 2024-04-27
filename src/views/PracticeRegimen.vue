@@ -404,6 +404,10 @@ const deletePracticeItemFromFirebase = (id) => {
   width: 80%;
 }
 
+:deep(.p-column-title) {
+  /* color: var(--button-color-border); */
+}
+
 button {
   margin-bottom: 1.75rem;
   margin-top: 1.5rem;
@@ -415,11 +419,25 @@ button {
 
 :deep(li.p-highlight a) {
   background-color: rgba(223, 195, 140, 1);
-  color: var(--button-color-text);
+  border: 1px solid var(--black);
 }
 
 :deep(li.p-highlight a span) {
-  color: var(--button-color-tab-text);
+  color: var(--cheap-pine-color);
+}
+
+:deep(li a) {
+  border: 1px solid var(--black);
+  border-bottom: none;
+  background-color: var(--cheap-pine-color-faded);
+}
+
+:deep(li a span) {
+  font-family: 'Cheap Pine', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 1.5px;
+  /* color: var(--white); */
+  color: var(--cheap-pine-color-faded-text);
 }
 
 .delete-btn {

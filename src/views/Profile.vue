@@ -3,17 +3,27 @@
     <h1>Profile</h1>
     <div>
       <div class="profile-details">
-        <img id="avatar" :src="photoURL" alt="profile photo" />
-        <p>Username: {{ username }}</p>
-        <p>Email: {{ email }}</p>
+        <img id="avatar" :src="photoURLInput" alt="profile photo" />
+        <p><strong>Username:</strong> {{ username }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
       </div>
       <div class="profile-edit">
         <!-- <h2>Edit Profile</h2> -->
         <form action="submit">
-          <!-- <div class="img-editor">
-          <InputText v-model="photoURL" placheholder="img url"> </InputText>
-        </div> -->
+          <div class="img-editor">
+            <label v-if="isEditing" for="photoURL">Photo URL</label>
+            <InputText
+              class="p-inputtext-lg"
+              id="photoURL"
+              v-if="isEditing"
+              v-model="photoURLInput"
+              :readonly="!isEditing"
+              placeholder="img url"
+            >
+            </InputText>
+          </div>
           <div class="p-field">
+            <label v-if="isEditing" for="username">Username</label>
             <InputText
               class="p-inputtext-lg"
               id="username"
@@ -36,8 +46,27 @@
           /> -->
           <!-- </div> -->
           <div class="btn-container">
-            <Button class="btn" label="Edit" @click="edit" v-if="!isEditing" />
-            <Button class="btn" label="Save" @click="save" v-if="isEditing" />
+            <Button
+              class="icon-btn"
+              icon="pi pi-pencil"
+              @click="edit"
+              v-if="!isEditing"
+              v-tooltip.bottom="'edit profile'"
+            />
+            <Button
+              class="icon-btn"
+              icon="pi pi-save"
+              @click="save"
+              v-if="isEditing"
+              v-tooltip.bottom="'save changes'"
+            />
+            <Button
+              class="icon-btn"
+              icon="pi pi-times"
+              @click="cancel"
+              v-if="isEditing"
+              v-tooltip.bottom="'cancel edit'"
+            />
           </div>
         </form>
       </div>
@@ -54,7 +83,8 @@ import Button from 'primevue/button'
 import { getAuth, updateProfile } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../main'
-import Card from 'primevue/card'
+import Tooltip from 'primevue/tooltip'
+import 'primeicons/primeicons.css'
 
 const auth = getAuth()
 const user = auth.currentUser
@@ -63,13 +93,14 @@ const username = ref('')
 const usernameInput = ref('')
 const email = ref('')
 const photoURL = ref('')
+const photoURLInput = ref('')
 const isEditing = ref(false)
 
 onMounted(() => {
   if (user) {
     username.value = user.displayName
     email.value = user.email
-    photoURL.value = user.photoURL
+    photoURLInput.value = user.photoURL
   }
   console.log('User:', user)
   console.log('Username:', username.value)
@@ -79,6 +110,9 @@ onMounted(() => {
 
 const edit = () => {
   // Load the user's profile details
+  photoURLInput.value = photoURL.value || photoURLInput.value
+  usernameInput.value = username.value || usernameInput.value
+
   isEditing.value = true
 }
 
@@ -89,7 +123,7 @@ const save = async () => {
 
   updateProfile(auth.currentUser, {
     displayName: usernameInput.value,
-    photoURL: photoURL.value,
+    photoURL: photoURLInput.value,
   })
     .then(() => {
       console.log('Profile updated successfully')
@@ -103,17 +137,37 @@ const save = async () => {
   await setDoc(docRef, {
     username: usernameInput.value,
     email: email.value,
-    photoURL: photoURL.value,
+    photoURL: photoURLInput.value,
   })
   username.value = usernameInput.value
+  photoURL.value = photoURLInput.value
 
+  photoURL.value = ''
   usernameInput.value = ''
 
+  isEditing.value = false
+}
+
+const cancel = () => {
+  photoURLInput.value = photoURL.value || photoURLInput.value
+  usernameInput.value = username.value || usernameInput.value
   isEditing.value = false
 }
 </script>
 
 <style scoped>
+p {
+  font-size: 1.25rem;
+}
+
+.icon-btn {
+  background-color: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  color: hsl(0, 0%, 50%);
+}
+
 #avatar {
   width: 100px;
   height: 100px;
@@ -122,14 +176,18 @@ const save = async () => {
 }
 
 .profile-container {
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* margin-top: 2rem; */
-  width: 80vw;
+  width: 94vw;
   margin-left: 2rem;
   border: 1px solid hsl(0, 0%, 50%, 0.3);
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+.profile-details {
+  padding: 1rem;
+}
+
+.profile-details p {
+  margin: 0.5rem;
 }
 </style>
