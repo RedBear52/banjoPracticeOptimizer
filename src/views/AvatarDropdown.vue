@@ -29,13 +29,14 @@ const items = computed(() => {
         router.push('/profile')
       },
     },
-    {
-      label: 'Settings',
-      icon: 'pi pi-fw pi-cog',
-      command: () => {
-        router.push('/settings')
-      },
-    },
+    // TODO: Add settings page w dark theme opton and ???
+    // {
+    //   label: 'Settings',
+    //   icon: 'pi pi-fw pi-cog',
+    //   command: () => {
+    //     router.push('/settings')
+    //   },
+    // },
   ]
 
   if (isLoggedIn.value) {

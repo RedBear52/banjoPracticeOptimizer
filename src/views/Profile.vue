@@ -173,6 +173,8 @@ p {
   height: 100px;
   border-radius: 50%;
   margin-bottom: 1rem;
+  border: none;
+  /* border: 1px solid hsl(0, 0%, 50%, 0.3); */
 }
 
 .profile-container {

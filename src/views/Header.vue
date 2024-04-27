@@ -32,6 +32,13 @@ const router = useRouter()
 const menu = ref(null)
 const items = ref([
   {
+    label: 'Home',
+    icon: 'pi pi-fw pi-home',
+    command: () => {
+      router.push('/')
+    },
+  },
+  {
     label: 'Goal Keeper',
     icon: 'pi pi-fw pi-trophy',
     command: () => {
