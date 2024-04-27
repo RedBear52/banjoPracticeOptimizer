@@ -175,6 +175,19 @@ button:hover {
   color: var(--white);
 }
 
+/* .edit-btn {
+  background-color: var(--white);
+  cursor: pointer;
+  color: var(--button-color-text);
+  border: none;
+  border: 1px solid var(--button-color-text);
+}
+
+.edit-btn:hover {
+  background-color: var(--button-color-text);
+  color: var(--white);
+} */
+
 textarea {
   background-color: var(--background-color);
   border: 1px solid var(--border-color);

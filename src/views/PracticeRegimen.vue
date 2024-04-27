@@ -72,7 +72,7 @@
         <template #body="slotProps">
           <Button
             :disabled="slotProps.data.completed"
-            class="edit-btn"
+            class="edit-item-btn"
             @click="editPracticeItem(slotProps.data.id)"
             label="Edit"
             icon="pi pi-pencil"
@@ -417,6 +417,10 @@ button {
   margin-bottom: 1.75rem;
 }
 
+.practice-btn:hover {
+  background-color: var(--button-color-border);
+}
+
 :deep(li.p-highlight a) {
   background-color: rgba(223, 195, 140, 1);
   border: 1px solid var(--black);
@@ -446,6 +450,15 @@ button {
 
 .delete-btn:hover {
   background-color: var(--red-500);
+  color: var(--white);
+}
+
+.edit-item-btn {
+  background-color: var(--white);
+}
+
+.edit-item-btn:hover {
+  background-color: var(--button-color-border);
   color: var(--white);
 }
 

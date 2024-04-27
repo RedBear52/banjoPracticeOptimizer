@@ -7,7 +7,7 @@
         >
           <span class="text-xl text-900 font-bold"><h1>Current Goals</h1></span>
           <router-link to="/add-goals"
-            ><Button value="Add Goals" rounded raised
+            ><Button class="add-goal" value="Add Goals" rounded raised
               ><i class="pi pi-plus"></i><span>Set New Goal</span></Button
             ></router-link
           >
@@ -42,7 +42,7 @@
         <template #body="slotProps">
           <Button
             :disabled="slotProps.data.completed"
-            class="edit-btn"
+            class="edit-item-btn"
             @click="editGoal(slotProps.data.id)"
             label="Edit"
             icon="pi pi-pencil"
@@ -254,13 +254,26 @@ const deleteGoalFromFirestore = (id) => {
 </script>
 
 <style scoped>
+.add-goal:hover {
+  background-color: var(--button-color-border);
+}
+
+.edit-item-btn {
+  background-color: var(--button-color);
+  color: var(--button-color-text);
+}
+
+.edit-item-btn:hover {
+  background-color: var(--button-color-border);
+}
+
 .delete-btn:hover {
   background-color: var(--red-500);
   color: var(--white);
 }
 
 .delete-btn:disabled,
-.edit-btn:disabled {
+.edit-item-btn:disabled {
   background-color: var(--gray-300);
   color: var(--gray-500);
   border: none;
@@ -289,7 +302,7 @@ i.completed {
 }
 
 h1 {
-  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 h2 {

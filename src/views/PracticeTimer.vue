@@ -1,21 +1,18 @@
 <template class="main-container">
   <div class="timer-container">
     <div class="title">
-      <i style="font-size: 3rem" class="pi pi-clock"></i>
+      <h1>Practice Timer</h1>
     </div>
     <div class="timer">
       <div class="focus">
+        <p><strong>Practice Focus:</strong></p>
         <span
-          ><strong
-            ><p>{{ practiceItem }}</p></strong
-          ></span
-        >
+          ><p>{{ practiceItem }}</p>
+        </span>
       </div>
       <div class="clock-container">
         <div class="timer-clock-container">
-          <div class="time">
-            {{ formatTime(timeElapsed) }}
-          </div>
+          <span class="time">{{ formatTime(timeElapsed) }}</span>
           <span
             v-if="
               (interval === undefined) |
@@ -40,7 +37,7 @@
             ></i
           ></span>
           <span
-            style="font-size: 4rem"
+            style="font-size: 2.5rem"
             v-if="state === 'paused' || state === 'stopped'"
             @click="restart"
             ><i
@@ -147,22 +144,35 @@ const markAsCompleted = async () => {
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  width: 100vw;
+  /* width: 100vw; */
 }
 
-.timer-container {
+h1 {
+  margin-left: 2rem;
+}
+
+.clock-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
-  width: 94vw;
   border: 1px solid hsl(0, 0%, 50%, 0.3);
   padding: 2rem;
   border-radius: 8px;
-  /* border-radius: 100%; */
   margin: 2rem;
+  width: 44vw;
+  background-color: var(--cheap-pine-color);
+}
+
+.timer-clock-container {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  border: 1px solid var(--cheap-pine-color-faded-300);
   background-color: var(--container-background-color);
+  border-radius: 8px;
+  width: 40vw;
 }
 
 .focus {
@@ -173,20 +183,25 @@ const markAsCompleted = async () => {
   font-size: 1.5rem;
 }
 
+.clock-container span {
+  margin: 1rem;
+  cursor: pointer;
+  color: var(--cheap-pine-color);
+
+  /* width: auto; */
+}
+
 .time {
   font-size: 4rem;
   margin-bottom: 3rem;
 }
 
-.clock-container {
+.timer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.clock-container span {
-  margin: 1rem;
-  margin-top: 4rem;
-  cursor: pointer;
+  margin-top: 2rem;
+  width: 100vw;
 }
 </style>

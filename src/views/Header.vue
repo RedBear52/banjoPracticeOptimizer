@@ -87,20 +87,20 @@ onUnmounted(() => {
 
 .header-container {
   background-color: white;
-  /* border-bottom: 1px solid var(--cheap-pine-color-faded); */
   border-color: var(--cheap-pine-color-faded-300);
   color: var(--color);
   margin-bottom: 1px;
   padding-bottom: 1rem;
   width: 100vw;
   z-index: 900;
-  transition: ease-out 0.6s;
+  transition: ease-out 0.3s;
 }
 
 .header-container.scrolling {
-  transition: ease-in 0.5s;
+  transition: ease-in 0.3s;
   box-shadow: 0 2px 12px -2px var(--cheap-pine-color-faded-300);
-  background-color: var(--cheap-pine-color);
+  /* background-color: var(--cheap-pine-color); */
+  background-color: rgb(254, 255, 255);
   opacity: 1;
 }
 
