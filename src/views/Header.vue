@@ -1,5 +1,5 @@
 <template>
-  <div class="header-container">
+  <div class="header-container" :class="{ scrolling: isScrolling }">
     <div>
       <img src="../assets/images/pbbLogo.jpg" alt="" />
     </div>
@@ -20,12 +20,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import Menu from 'primevue/menu'
 import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
 import AvatarDropdown from './AvatarDropdown.vue'
 import 'primeicons/primeicons.css'
+import { on } from 'keyv'
 
 const router = useRouter()
 const menu = ref(null)
@@ -46,9 +47,26 @@ const items = ref([
   },
 ])
 
+const isScrolling = ref(false)
+
 const toggle = (event) => {
   menu.value.toggle(event)
 }
+
+const handleScroll = () => {
+  console.log(window.scrollY)
+  console.log(isScrolling.value)
+
+  isScrolling.value = window.scrollY > 0
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 
@@ -68,17 +86,22 @@ const toggle = (event) => {
 }
 
 .header-container {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  background-color: var(--cheap-pine-color-faded-text);
-  border-bottom: 2px solid var(--cheap-pine-color-faded);
+  background-color: white;
+  /* border-bottom: 1px solid var(--cheap-pine-color-faded); */
   border-color: var(--cheap-pine-color-faded-300);
-  width: 20%;
   color: var(--color);
   margin-bottom: 1px;
   padding-bottom: 1rem;
   width: 100vw;
+  z-index: 900;
+  transition: ease-out 0.6s;
+}
+
+.header-container.scrolling {
+  transition: ease-in 0.5s;
+  box-shadow: 0 2px 12px -2px var(--cheap-pine-color-faded-300);
+  background-color: var(--cheap-pine-color);
+  opacity: 1;
 }
 
 img {
@@ -95,6 +118,7 @@ img {
   top: 2rem;
   background-color: var(--color-primary);
   color: var(--color);
+  border: none;
 }
 
 .hamburger {
@@ -114,8 +138,14 @@ img {
   box-shadow: none;
 }
 
+button.p-button {
+  background-color: var(--color-primary);
+  color: var(--color);
+  border: none;
+}
+
 button.p-button:hover {
-  background-color: initial !important;
-  color: initial !important;
+  background-color: initial;
+  border: none;
 }
 </style>

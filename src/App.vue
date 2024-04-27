@@ -1,7 +1,6 @@
 <template>
   <!-- <main> -->
-  <Header />
-  <!-- <NavBar /> -->
+  <Header class="header" />
   <RouterView />
   <!-- </main> -->
 </template>
@@ -9,5 +8,12 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import Header from './views/Header.vue'
-// import NavBar from './views/NavBar.vue'
 </script>
+
+<style>
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+</style>

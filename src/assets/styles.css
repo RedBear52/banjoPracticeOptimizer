@@ -20,6 +20,7 @@
 
   --border-color: hsla(23, 5%, 47%, 1);
   --border-color-faded: hsla(0, 0%, 75%, 0.5);
+  --header-overlay-faded: hsla(0, 0%, 75%, 01);
   --strikethrough-color: hsla(23, 5%, 47%, 0.5);
   --cheap-pine-color: rgb(85, 77, 72);
   --cheap-pine-color-faded: rgba(85, 77, 72, 0.1);
@@ -47,7 +48,6 @@
 html,
 body {
   display: flex;
-  /* background-color: aqua; */
   /* background-color: rgb(252,254,255); */
   color: var(--cheap-pine-color);
   font-family: 'Cheapine-Sans', sans-serif;
