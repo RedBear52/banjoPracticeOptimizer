@@ -187,8 +187,6 @@ h1 {
   margin: 1rem;
   cursor: pointer;
   color: var(--cheap-pine-color);
-
-  /* width: auto; */
 }
 
 .time {

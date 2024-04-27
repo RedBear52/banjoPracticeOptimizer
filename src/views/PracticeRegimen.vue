@@ -114,6 +114,26 @@
           </span>
         </template>
       </Column>
+      <!-- <Column field="day" header="Notes">
+        <template #body="slotProps">
+          <span v-tooltip.top="'add note'">
+            <i
+              class="pi pi-plus"
+              :class="{ completed: slotProps.data.completed }"
+              style="color: var(--button-color-text)"
+              @click="addNote(slotProps.data.id)"
+            ></i>
+          </span>
+          <span v-tooltip.top="'view note'">
+            <i
+              class="pi pi-eye"
+              :class="{ completed: slotProps.data.completed }"
+              style="color: var(--button-color-text)"
+              @click="viewNote(slotProps.data.id)"
+            ></i>
+          </span>
+        </template>
+      </Column> -->
       <Column field="completed" header="Status">
         <template #body="slotProps">
           <span :class="{ completed: slotProps.data.completed }">
@@ -137,6 +157,16 @@
       </template>
     </DataTable>
   </div>
+
+  <teleport to="body">
+    <div v-if="isModalOpen" class="modal">
+      <div class="modal-content">
+        <h2>Notes</h2>
+        <p>{{ notes }}</p>
+        <button @click="closeModal">Close</button>
+      </div>
+    </div>
+  </teleport>
 </template>
 
 <script setup>
@@ -168,6 +198,8 @@ const editingItem = ref(null)
 const tempItem = reactive({ id: null, practiceItem: '' })
 const router = useRouter()
 const auth = getAuth()
+const isModalOpen = ref(false)
+const notes = ref('...')
 
 const tabItems = [
   {
@@ -259,7 +291,6 @@ onMounted(() => {
         const q = query(
           collection(db, 'practiceRegimen'),
           where('userId', '==', user.uid)
-          // where('day', '==', useRouter().currentRoute.value.params.day)
         )
 
         const querySnapshot = await getDocs(q)
@@ -343,7 +374,10 @@ const openPracticeTimer = (id) => {
 
 const viewNote = (id) => {
   const item = practiceRegimen.value.find((item) => item.id === id)
-  alert(item.notes)
+  alert(
+    item.notes ||
+      `No notes available ... click the 'ADD NOTE' button in the 'NOTES' column to add a note to this practice item.`
+  )
 }
 
 const editPracticeItem = (id) => {

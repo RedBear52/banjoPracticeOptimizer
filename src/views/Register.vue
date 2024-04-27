@@ -147,10 +147,11 @@ form {
   padding: 4rem;
   padding-top: 0;
   border-radius: 8px;
-  margin-top: -4rem;
+  margin-top: 2rem;
 }
 
 h1 {
   justify-self: flex-start;
+  margin-top: 2rem;
 }
 </style>
