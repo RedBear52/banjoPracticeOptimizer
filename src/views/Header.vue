@@ -26,7 +26,6 @@ import Button from 'primevue/button'
 import { useRouter } from 'vue-router'
 import AvatarDropdown from './AvatarDropdown.vue'
 import 'primeicons/primeicons.css'
-import { on } from 'keyv'
 
 const router = useRouter()
 const menu = ref(null)
