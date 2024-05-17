@@ -13,6 +13,17 @@
       as it may provide you with some of the foundational knowledge and skills
       necessary to make the most of the app. <br />
     </p>
+    <p>
+      <strong
+        >*NOTE: The practice regimen and goal sheets are formatted slightly
+        differently in this app compared to the instructions and examples in the
+        Perfect Practice Course. <br />
+        This is intentional. The changes reflect changes in my approach to
+        teaching and presenting this material. I believe that the adaptation
+        from the course to this app should be intuitive and simple BUT, if you
+        have any questions, let me know!</strong
+      >
+    </p>
   </Message>
   <h1>Perfect Practice Optimizer</h1>
   <div class="home-container">
