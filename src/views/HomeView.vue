@@ -39,7 +39,7 @@
     </p>
 
     <img
-      src="/Users/ryanspearman/Desktop/software_projects/vueProjects/banjoTracker/banjoTracker/firebaseBanjoTracker/src/assets/images/DE8FAAC0-6377-48AF-9F94-47B660F93FDE.jpeg"
+      src="../assets/images/DE8FAAC0-6377-48AF-9F94-47B660F93FDE.jpeg"
       alt="screenshot of the drop down menu focused on login link"
     />
     <p>
@@ -49,7 +49,7 @@
     </p>
     <br />
     <img
-      src="/Users/ryanspearman/Desktop/software_projects/vueProjects/banjoTracker/banjoTracker/firebaseBanjoTracker/src/assets/images/A315BF4B-7369-45B7-926C-A0229F462C6B.jpeg"
+      src="../assets/images/A315BF4B-7369-45B7-926C-A0229F462C6B.jpeg"
       alt="screenshot of the drop down menu focused on goal keeper link"
     />
     <p>
@@ -57,7 +57,7 @@
       practice regimen:
     </p>
     <img
-      src="/Users/ryanspearman/Desktop/software_projects/vueProjects/banjoTracker/banjoTracker/firebaseBanjoTracker/src/assets/images/94622CF7-28C9-4D52-B12E-D8AF32402D1C.jpeg"
+      src="../assets/images/94622CF7-28C9-4D52-B12E-D8AF32402D1C.jpeg"
       alt="screenshot of the practice regimen page"
     />
     <br />
