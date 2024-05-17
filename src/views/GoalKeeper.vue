@@ -153,6 +153,9 @@ onMounted(() => {
   })
 
   // Call unsubscribe when the component unmounts
+  // to stop listening to the auth state
+  // TODO: Look further into this unsubscribe/watch authState change pattern as I didn't fully understand it when implementing
+  // https://firebase.google.com/docs/auth/web/manage-users
   onUnmounted(() => {
     unsubscribe()
   })

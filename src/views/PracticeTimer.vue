@@ -103,7 +103,7 @@ const start = () => {
       clearInterval(interval.value)
       markAsCompleted()
     }
-  }, 10)
+  }, 1000)
 }
 
 const pause = () => {
@@ -125,7 +125,7 @@ const markAsCompleted = async () => {
       completed: true,
       day: params.day,
     })
-    console.log(params.day, params.day)
+    console.log(params.day, params.completed)
   } catch (error) {
     console.error('Error updating document: ', error)
   }
