@@ -30,7 +30,7 @@
     <br />
 
     <img
-      src="/Users/ryanspearman/Desktop/software_projects/vueProjects/banjoTracker/banjoTracker/firebaseBanjoTracker/src/assets/images/F90CFC11-C26B-4810-94B8-755E167B8C1A.jpeg"
+      src="../assets/images/F90CFC11-C26B-4810-94B8-755E167B8C1A.jpeg"
       alt="screenshot of the drop down menu focused on register link"
     />
     <p>
